@@ -2,7 +2,9 @@ var path = require('path')
 var webpack = require('webpack')
 //const publicPath='dist/';
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-var plugins = []
+var plugins = [
+    new webpack.NormalModuleReplacementPlugin(/element-ui\/lib\/locale\/lang\/zh-CN/ig, 'element-ui/lib/locale/lang/en')
+]
 plugins.push(
     new HtmlWebpackPlugin({ //根据模板插入css/js等生成最终HTML
         filename: './index.html', //生成的html存放路径，相对于 path
@@ -82,8 +84,8 @@ module.exports = {
     //inline: true,
     proxy:{
       '/apido': {
-        target: 'http://www.vking.com/facebook_ads/wwwroot/',
-        //secure: false
+        target: 'http://127.0.0.1/fb.vking.wang/wwwroot/',
+        secure: false
       }
     }
   },

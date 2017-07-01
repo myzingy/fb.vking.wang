@@ -1,16 +1,17 @@
-export const CKECKED_AC = 'CKECKED_AC' //checked ac
+export const SET = 'SET' //checked ac
 
 export default {
     state: JSON.parse(localStorage.getItem('data')) || {},
     mutations: {
-        [CKECKED_AC](state, data) {
-            localStorage.setItem('data', JSON.stringify(data))
+        [SET](state, data) {
             Object.assign(state, data)
+            localStorage.setItem('data', JSON.stringify(state))
+
         },
     },
     actions: {
-        [CKECKED_AC]({commit}, data) {
-            commit(CKECKED_AC, data)
+        [SET]({commit}, data) {
+            commit(SET, data)
         },
     }
 }

@@ -12,29 +12,29 @@
 </style>
 <template>
 	<div>
-		<el-button type="primary" @click="openAccountsFBDialog" style=" float: right;z-index: 1;position: relative;">绑定账号
+		<el-button type="primary" @click="openAccountsFBDialog" style=" float: right;z-index: 1;position: relative;">{{$t('bind account')}}
 			<i class="el-icon-setting el-icon--right"></i></el-button>
 		<el-tabs v-model="activeName" @tab-click="handleTabClick">
-			<el-tab-pane label="已绑定广告账号" name="getRulesLog">
+			<el-tab-pane :label="$t('Bound advertising account')" name="getRulesLog">
 				<el-table :data="rulesLog" border style="width: 100%" max-height="750">
 					<el-table-column prop="account_id" label="Account ID" width="180"></el-table-column>
 					<el-table-column prop="account_name" label="Account Name"  ></el-table-column>
-					<el-table-column label="操作" width="120" >
+					<el-table-column :label="$t('operation')" width="120" >
 						<template scope="scope">
 							<el-button type="text" size="small" @click="unBindAccount(scope.$index, scope.row)">
-								解绑
+								{{$t('Unbound')}}
 							</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
 			</el-tab-pane>
 		</el-tabs>
-		<el-dialog title="FB广告账号列表" :visible.sync="dialogTableVisible" :close-on-click-modal="false"
+		<el-dialog :title="$t('fb_accounts')" :visible.sync="dialogTableVisible" :close-on-click-modal="false"
 				   :close-on-press-escape="false">
 			<accounts_fb ref="accounts_fb"></accounts_fb>
 			<span slot="footer" class="dialog-footer">
-				<el-button @click="closeDialog">取 消</el-button>
-				<el-button type="primary" @click="bindFbAccounts">确 定</el-button>
+				<el-button @click="closeDialog">{{$t('el.messagebox.cancel')}}</el-button>
+				<el-button type="primary" @click="bindFbAccounts">{{$t('el.messagebox.confirm')}}</el-button>
 			  </span>
 		</el-dialog>
 	</div>
@@ -47,8 +47,41 @@
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
     import accounts_fb from './accounts_fb.vue';
-    Vue.use(ElementUI)
-    export default {
+    import VueI18n from 'vue-i18n'
+    import ElementLocale from 'element-ui/lib/locale'
+    import enLocale from 'element-ui/lib/locale/lang/en'
+    import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+
+    Vue.use(VueI18n)
+    const messages = {
+        en: {
+
+            'bind account': 'Bind AdAccount',
+			'Bound advertising account':'Bound advertising account',
+			'operation':'Operation',
+            'Unbound':'Unbound',
+            'fb_accounts':'Facebook AdAccounts',
+			'Successful operation':'Successful operation',
+			...enLocale
+        },
+        zh: {
+            'bind account': '绑定账号',
+			'Bound advertising account':'已绑定广告账号',
+			'operation':'操作',
+			'Unbound':'解绑',
+			'fb_accounts':'FB广告账号列表',
+			'Successful operation':'操作成功',
+			...zhLocale
+        }
+    }
+    // Create VueI18n instance with options
+    const i18n = new VueI18n({
+        locale: 'en', // set locale
+        messages, // set locale messages
+    })
+
+    ElementLocale.i18n(key => i18n.t(key))
+var App={
         components:{
             accounts_fb:accounts_fb,
         },
@@ -59,8 +92,9 @@
                 dialogTableVisible:false,
 			}
 		},
-        computed: mapState({ user: state => state.user }),
+        computed: mapState({ user: state => state.user,lang:state => state.data?state.data.lang:"en" }),
         mounted(){
+            i18n.locale=this.lang;
 			this.init();
         },
         methods:{
@@ -78,11 +112,11 @@
                         break;
 					case uri.addAccounts.code:
 					    this.dialogTableVisible=false;
-					    vk.toast('操作成功','msg');
+					    vk.toast(i18n.t('Successful operation'),'msg');
                         this.init();
 					    break;
 					case uri.delAccounts.code:
-                        vk.toast('操作成功','msg');
+                        vk.toast(i18n.t('Successful operation'),'msg');
                         this.init();
 					    break;
 				}
@@ -91,7 +125,6 @@
 
 			},
             openAccountsFBDialog(){
-                console.log(12323);
                 this.dialogTableVisible=true;
 			},
             bindFbAccounts(){
@@ -105,4 +138,5 @@
 			}
 		}
     }
+    export default {i18n,...App}
 </script>

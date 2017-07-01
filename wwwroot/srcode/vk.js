@@ -111,9 +111,9 @@ let vk={
         return d;
     },
     confirm:function(title,confirm,cancel){
-        MessageBox.confirm(title, '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
+        MessageBox.confirm(title, 'Message', {
+            confirmButtonText: 'Ok',
+            cancelButtonText: 'Cancel',
             type: 'warning'
         }).then(() => {
             if(confirm) confirm();

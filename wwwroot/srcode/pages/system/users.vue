@@ -13,36 +13,36 @@
 <template>
 	<div>
 		<el-tabs v-model="activeName">
-			<el-tab-pane label="用户列表" name="getRulesLog">
+			<el-tab-pane :label="$t('Staff Management')" name="getRulesLog">
 				<el-form :inline="true" :model="form" class="demo-form-inline">
 					<el-form-item label="Email">
-						<el-input v-model="form.email" placeholder="注册 facebook email"></el-input>
+						<el-input v-model="form.email" :placeholder="$t('reg fb email')"></el-input>
 					</el-form-item>
-					<el-form-item label="用户组">
-						<el-select v-model="form.group_id" placeholder="请选择">
+					<el-form-item :label="$t('groups')">
+						<el-select v-model="form.group_id" :placeholder="$t('el.select.placeholder')">
 							<el-option label="Admin" value="0"></el-option>
 							<el-option label="Advertisers" value="1"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item>
-						<el-button type="primary" @click="addUser">添加用户</el-button>
+						<el-button type="primary" @click="addUser">{{$t('add staff')}}</el-button>
 					</el-form-item>
 				</el-form>
 				<el-table :data="rulesLog" border style="width: 100%" max-height="750">
 					<el-table-column prop="email" label="Email" width="250"></el-table-column>
-					<el-table-column :formatter="formatUserdata" label="用户数据" ></el-table-column>
-					<el-table-column label="用户组"  width="120">
+					<el-table-column :formatter="formatUserdata" :label="$t('staff data')" ></el-table-column>
+					<el-table-column :label="$t('groups')"  width="120">
 						<template scope="scope">
-						<el-select v-model="scope.row.group_id" placeholder="请选择" @change="changeUser(scope.row.group_id,scope.row)">
+						<el-select v-model="scope.row.group_id" :placeholder="$t('el.select.placeholder')" @change="changeUser(scope.row.group_id,scope.row)">
 							<el-option label="Admin" value="0"></el-option>
 							<el-option label="Advertisers" value="1"></el-option>
 						</el-select>
 						</template>
 					</el-table-column>
-					<el-table-column label="操作" width="100"  >
+					<el-table-column :label="$t('operation')" width="100"  >
 						<template scope="scope">
 							<el-button type="text" size="small" @click="deleteUser(scope.$index, scope.row)">
-								删除
+								{{$t('el.upload.delete')}}
 							</el-button>
 							<!--
 							<el-button type="text" size="small" @click="openDialog(scope.$index, scope.row)">
@@ -58,8 +58,8 @@
 				   :close-on-press-escape="false">
 			<accounts_fb ref="accounts_fb" type="nofb"></accounts_fb>
 			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogClose">取 消</el-button>
-				<el-button type="primary" @click="saveAccounts">确 定</el-button>
+				<el-button @click="dialogClose">{{$t('el.messagebox.cancel')}}</el-button>
+				<el-button type="primary" @click="saveAccounts">{{$t('el.messagebox.confirm')}}</el-button>
 			  </span>
 		</el-dialog>
 	</div>
@@ -72,8 +72,45 @@
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
     import accounts_fb from './accounts_fb.vue';
-    Vue.use(ElementUI)
-    export default {
+    import VueI18n from 'vue-i18n'
+    import ElementLocale from 'element-ui/lib/locale'
+    import enLocale from 'element-ui/lib/locale/lang/en'
+    import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+
+    Vue.use(VueI18n)
+    const messages = {
+        en: {
+
+            'reg fb email': 'Register facebook email',
+            'Staff Management':'Staff Management',
+            'operation':'Operation',
+            'groups':'Group',
+            'staff data':'Staff data',
+            'add staff':'Add Staff',
+            'Successful operation':'Successful operation',
+            'Are you sure you want to delete this employee?':'Are you sure you want to delete this employee?',
+            ...enLocale
+        },
+        zh: {
+            'reg fb email': '注册 facebook email',
+            'Staff Management':'员工管理',
+            'operation':'操作',
+            'groups':'用户组',
+            'staff data':'用户数据',
+            'add staff':'添加用户',
+            'Successful operation':'操作成功',
+			'Are you sure you want to delete this employee?':'确认要删除此员工吗?',
+            ...zhLocale
+        }
+    }
+    // Create VueI18n instance with options
+    const i18n = new VueI18n({
+        locale: 'en', // set locale
+        messages, // set locale messages
+    })
+
+    ElementLocale.i18n(key => i18n.t(key))
+var App= {
         components:{
             accounts_fb:accounts_fb,
         },
@@ -90,9 +127,10 @@
                 accountsEmail:"",
 			}
 		},
-        computed: mapState({ user: state => state.user }),
+        computed: mapState({ user: state => state.user,lang:state => state.data?state.data.lang:"en" }),
         mounted(){
-		   this.init();
+            i18n.locale=this.lang;
+		   	this.init();
         },
         methods:{
             init(){
@@ -106,7 +144,7 @@
                         break;
 					case uri.addUsers.code:
 					case uri.delUsers.code:
-                        vk.toast('操作成功','msg')
+                        vk.toast(i18n.t('Successful operation'),'msg')
 						this.init();
 					    break;
 					case uri.getAccountsForEmail.code:
@@ -129,7 +167,7 @@
             },
             deleteUser(index,row){
                 var that=this;
-                vk.confirm("确认要删除此用户吗?",function(){
+                vk.confirm(i18n.t('Are you sure you want to delete this employee?'),function(){
                     vk.http(uri.delUsers,{email:row.email},that.then);
 				});
 			},
@@ -157,4 +195,5 @@
 			}
 		}
     }
+    export default {i18n,...App}
 </script>

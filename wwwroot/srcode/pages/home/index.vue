@@ -18,9 +18,9 @@
 <template>
 
 	<div>
-		<v-header title="首页">
+		<v-header :title="$t('Statistics')">
 			<router-link slot="left" to="?">
-				<el-select v-model="ac_idx" placeholder="请选择AD账号开始" @change="acChecked" popper-class="header-select">
+				<el-select v-model="ac_idx" :placeholder="$t('Select Account Start')" @change="acChecked" popper-class="header-select">
 					<el-option
 							v-for="item in acs"
 							:key="item.account_id"
@@ -32,7 +32,18 @@
 					</el-option>
 				</el-select>
 			</router-link>
-			<router-link slot="right" to="/signout">{{user.name}} 退出</router-link>
+			<div slot="right">
+				<el-select v-model="langx" :placeholder="$t('Language')" @change="LanguageChecked" style="width: 120px;" popper-class="header-select">
+					<el-option
+							v-for="item in [{key:'zh',label:'中 文'},{key:'en',label:'English'}]"
+							:key="item.key"
+							:label="item.label"
+							:value="item.key">
+					</el-option>
+				</el-select>
+				<router-link  to="/signout">{{user.name}} {{$t('Logout')}}</router-link>
+			</div>
+
 		</v-header>
 		<div>
 			<el-row :style="{ height:height +'px' }" v-if="ac_idx">
@@ -63,14 +74,45 @@
     import { mapState,mapActions } from 'vuex'
     import ElementUI from 'element-ui'
     import 'element-ui/lib/theme-default/index.css'
-    import { CKECKED_AC } from '../../store/data.js'
+    import { SET } from '../../store/data.js'
     import vk from '../../vk.js';
     import uri from '../../uri.js';
     import statistical from './statistical.vue';
-    Vue.use(ElementUI)
-    export default {
+
+    import VueI18n from 'vue-i18n'
+    //import enLocale from 'element-ui/lib/locale/lang/en'
+    //import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+    import ElementLocale from 'element-ui/lib/locale'
+
+    Vue.use(VueI18n)
+
+    const messages = {
+        en: {
+            Statistics: 'Statistics',
+			'Select Account Start':'Please select an AdAccount to start',
+            Language:'Language',
+            Logout:'Logout',
+            //...enLocale
+        },
+        zh: {
+            Statistics: '统计',
+			'Select Account Start':'请选择一个广告账号开始',
+            Language:'语言',
+            Logout:'登出',
+            //...zhLocale
+        }
+    }
+    // Create VueI18n instance with options
+    const i18n = new VueI18n({
+        locale: 'en', // set locale
+        messages, // set locale messages
+    })
+
+    ElementLocale.i18n(key => i18n.t(key))
+
+	var App={
         components:{
-            statistical:statistical,
+            statistical:statistical
 		},
         data:function(){
             return {
@@ -78,25 +120,34 @@
                 height_cc:500,
                 h_height:80,
                 acs:[],
-                ac_idx:"",
+                ac_idx:!vk.isProduction(),
+                langx:'en',
 			}
 		},
-        computed: mapState({ user: state => state.user,ac_id: state => state.data?state.data.ac_id:""}),
+        computed: mapState({ user: state => state.user,ac_id: state => state.data?state.data.ac_id:"",lang:state => state.data?state.data.lang:"en"}),
         mounted(){
             console.log('store.state.data',this.ac_id);
+            this.langx=this.lang?this.lang:'en';
+            i18n.locale=this.langx;
             this.height=document.body.scrollHeight-(this.h_height);
             this.height_cc=this.height;
             this.getAcsList();
         },
         methods:{
-            ...mapActions([CKECKED_AC]),
+            ...mapActions([SET]),
             acChecked:function(ac_id){
                 var old_id=this.ac_id;
-                this.CKECKED_AC({ac_id:ac_id});
+                this.SET({ac_id:ac_id});
                 this.ac_idx=ac_id;
                 if(old_id!=ac_id)
                     location.reload();
             },
+            LanguageChecked(lang){
+                this.SET({lang:lang});
+                //ElementUI.locale(lang);
+				i18n.locale=lang;
+				this.langx=lang;
+			},
 			then(json,code){
                 switch(code){
                     case uri.getAcsList.code:
@@ -122,4 +173,5 @@
 			}
         },
     }
+    export default {i18n,...App}
 </script>

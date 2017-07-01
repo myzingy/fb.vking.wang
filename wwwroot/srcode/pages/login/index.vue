@@ -34,8 +34,8 @@
 				Sign in with Facebook
 			</fb-signin-button>
 		</div>
-		<!--
-		<form class="login" v-on:submit.prevent="submit">
+
+		<form class="login" v-on:submit.prevent="submit_test" v-show="!isProduction">
 			<div class="line">	
 				<div v-show="btn && !form.id">id不能为空</div>
 				<input type="number" placeholder="输入你的id" v-model="form.id">
@@ -46,7 +46,7 @@
 			</div>
 			<button>登录</button>
 		</form>
-		-->
+
 	</div>
 </template>
 <script>
@@ -85,7 +85,8 @@
                 fbSignInParams: {
                     scope: 'email,ads_management,ads_read,manage_pages,read_insights',
                     return_scopes: true
-                }
+                },
+                isProduction:vk.isProduction(),
 			}
 		},
 		methods: {
@@ -121,6 +122,15 @@
                 FB.logout(function(response) {
                     console.log('logout', response)
                 });
+			},
+			submit_test(){
+				this.USER_SIGNIN({
+					id: '111',
+					name: '111',
+					email:'111',
+					token:'111',
+				})
+				this.$router.replace({ path: '/home' })
 			}
 		}
     }
