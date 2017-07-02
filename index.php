@@ -39,6 +39,7 @@
 	            <li class="active"><a href="#home" class="smothscroll">Power Editor</a></li>
 	            <li class=""><a href="#desc" class="smothscroll">Ads Manager</a></li>
 	            <li class=""><a href="#showcase" class="smothScroll">Business Manager</a></li>
+                  <li class=""><a href="./wwwrootdist" class="smothScroll" style="color: #f00; font-weight: bold;">Start Play</a></li>
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>
