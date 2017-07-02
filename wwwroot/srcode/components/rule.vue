@@ -50,7 +50,9 @@
             'Rule Content':'规则内容',
             'Save Rule':'保存规则',
             'Successful operation':'操作成功',
-
+            'Limit setting':'限定设置',
+            'Cause':'起因',
+            'Execute':'执行',
             ...zhLocale
         }
     }
@@ -102,7 +104,7 @@
 				};
                 this.workspace.clear();
                 this.appendXML('<xml xmlns="http://www.w3.org/1999/xhtml"></xml>');
-				vk.toast('操作成功','msg');
+				vk.toast(i18n.t('Successful operation'),'msg');
 				this.$emit('showRulesView');
 			},
             editInfo:function (obj) {
@@ -132,16 +134,17 @@
                 console.log('BlocklyLibrary',key);
                 BlocklyLibrary[key].init();
             });
+
             var toolbox = '<xml>';
-            toolbox +='<category name="限定设置" colour="180">';
+            toolbox +='<category name="'+i18n.t('Limit setting')+'" colour="180">';
             toolbox += '	<block type="budget_limit"></block>';
             toolbox += '</category>';
-            toolbox +='<category name="起因" colour="210">';
+            toolbox +='<category name="'+i18n.t('Cause')+'" colour="210">';
             toolbox += '	<block type="controls_if"></block>';
             toolbox += '	<block type="logic_operation"></block>';
             toolbox += '	<block type="data_comparison"></block>';
             toolbox += '</category>';
-            toolbox +='<category name="执行" colour="120">';
+            toolbox +='<category name="'+i18n.t('Execute')+'" colour="120">';
             toolbox += '	<block type="implement"></block>';
             toolbox += '</category>';
             toolbox += '</xml>';

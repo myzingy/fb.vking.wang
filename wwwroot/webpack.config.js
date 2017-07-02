@@ -3,7 +3,7 @@ var webpack = require('webpack')
 //const publicPath='dist/';
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 var plugins = [
-    new webpack.NormalModuleReplacementPlugin(/element-ui\/lib\/locale\/lang\/zh-CN/ig, 'element-ui/lib/locale/lang/en')
+    //new webpack.NormalModuleReplacementPlugin(/element-ui\/lib\/locale\/lang\/zh-CN/ig, 'element-ui/lib/locale/lang/en')
 ]
 plugins.push(
     new HtmlWebpackPlugin({ //根据模板插入css/js等生成最终HTML

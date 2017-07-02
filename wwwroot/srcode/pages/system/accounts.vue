@@ -52,7 +52,7 @@
     import enLocale from 'element-ui/lib/locale/lang/en'
     import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
-    Vue.use(VueI18n)
+    Vue.use(VueI18n);
     const messages = {
         en: {
 
@@ -138,5 +138,5 @@ var App={
 			}
 		}
     }
-    export default {i18n,...App}
+    export default {i18n,accounts_fb,...App}
 </script>

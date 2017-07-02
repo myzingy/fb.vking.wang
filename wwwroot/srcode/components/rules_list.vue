@@ -108,8 +108,9 @@
 //                }
 //            }
 //        },
-        computed: mapState({ user: state => state.user }),
+        computed: mapState({ user: state => state.user,lang:state => state.data?state.data.lang:"en" }),
         mounted(){
+            i18n.locale=this.lang;
             var params={'status':0};
             vk.http(uri.getRulesData,params,this.then);
         },

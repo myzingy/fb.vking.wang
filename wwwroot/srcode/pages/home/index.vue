@@ -41,7 +41,7 @@
 							:value="item.key">
 					</el-option>
 				</el-select>
-				<router-link  to="/signout">{{user.name}} {{$t('Logout')}}</router-link>
+				<router-link  to="/signout">{{user.name}}, {{$t('Logout')}}</router-link>
 			</div>
 
 		</v-header>
@@ -108,7 +108,10 @@
         messages, // set locale messages
     })
 
-    ElementLocale.i18n(key => i18n.t(key))
+    //ElementLocale.i18n(key => i18n.t(key))
+	Vue.use(ElementUI,{
+        i18n: key => i18n.vm._t(key)
+	})
 
 	var App={
         components:{
@@ -143,10 +146,13 @@
                     location.reload();
             },
             LanguageChecked(lang){
+                var old_id=this.lang;
                 this.SET({lang:lang});
                 //ElementUI.locale(lang);
 				i18n.locale=lang;
 				this.langx=lang;
+                if(old_id!=lang)
+                    location.reload();
 			},
 			then(json,code){
                 switch(code){

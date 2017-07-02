@@ -1,4 +1,30 @@
 import Blockly from 'node-blockly/browser';
+import VueI18n from 'vue-i18n';
+const messages = {
+    en: {
+
+        '预算上限': 'Budget maximum',
+        '预算下限': 'Budget minimum',
+        '请将此片段放在开始位置':'Please put this fragment at the beginning',
+    },
+    zh: {
+        '预算上限': '预算上限',
+        '预算下限':'预算下限',
+        '请将此片段放在开始位置':'请将此片段放在开始位置',
+    }
+}
+// Create VueI18n instance with options
+var locale='en';
+try{
+    var local=localStorage.getItem('data');
+    local=JSON.parse(local);
+    locale=local.lang?local.lang:'en';
+}catch(e){}
+
+const i18n = new VueI18n({
+    locale: locale, // set locale
+    messages, // set locale messages
+})
 export default {
     json:{
         "type": "budget_limit",
@@ -9,11 +35,11 @@ export default {
                 "name": "type",
                 "options": [
                     [
-                        "预算上限",
+                        i18n.t("预算上限"),
                         "max"
                     ],
                     [
-                        "预算下限",
+                        i18n.t("预算下限"),
                         "min"
                     ]
                 ]
@@ -33,7 +59,7 @@ export default {
 
         
         "colour": 300,
-        "tooltip": "请将此片段放在开始位置",
+        "tooltip": i18n.t("请将此片段放在开始位置"),
         "helpUrl": ""
     },
     init: function(){

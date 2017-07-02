@@ -1,4 +1,41 @@
 import Blockly from 'node-blockly/browser';
+import VueI18n from 'vue-i18n';
+import vk from '../vk.js';
+const messages = {
+    en: {
+
+        '预算调整': 'Budget adjustment',
+        '暂停投放': 'Pause advertising',
+        '加上':'Add(+)',
+        '减去':'Subtract(-)',
+        '调至':'Adjust to',
+        '数值或百分比':'Number or x%',
+        'ROAS':'ROAS(Spend/Income)%',
+        '今日花费':'Amount spent',
+    },
+    zh: {
+        '预算调整': '预算调整',
+        '暂停投放': '暂停投放',
+        '加上':'加上',
+        '减去':'减去',
+        '调至':'调至',
+        '数值或百分比':'数值或百分比',
+        'ROAS':'ROAS(花费/收入)%',
+        '今日花费':'当前花费',
+    }
+}
+// Create VueI18n instance with options
+var locale='en';
+try{
+    var local=localStorage.getItem('data');
+    local=JSON.parse(local);
+    locale=local.lang?local.lang:'en';
+}catch(e){}
+
+const i18n = new VueI18n({
+    locale: locale, // set locale
+    messages, // set locale messages
+})
 export default {
     json:{
         "type": "implement",
@@ -9,11 +46,11 @@ export default {
                 "name": "field",
                 "options": [
                     [
-                        "预算调整",
+                        i18n.t("预算调整"),
                         "Budget"
                     ],
                     [
-                        "暂停投放",
+                        i18n.t("暂停投放"),
                         "Pause"
                     ]
                 ]
@@ -23,15 +60,15 @@ export default {
                 "name": "do",
                 "options": [
                     [
-                        "加上",
+                        i18n.t("加上"),
                         "+"
                     ],
                     [
-                        "减去",
+                        i18n.t("减去"),
                         "-"
                     ],
                     [
-                        "调至",
+                        i18n.t("调至"),
                         "="
                     ]
                 ]
@@ -41,15 +78,15 @@ export default {
                 "name": "type",
                 "options": [
                     [
-                        "数值或百分比",
+                        i18n.t("数值或百分比"),
                         "input"
                     ],
                     [
-                        "ROAS",
+                        i18n.t("ROAS"),
                         "ROAS"
                     ],
                     [
-                        "今日花费",
+                        i18n.t("今日花费"),
                         "getAmountSpentNow"
                     ]
                 ]

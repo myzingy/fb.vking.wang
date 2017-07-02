@@ -1,4 +1,68 @@
 import Blockly from 'node-blockly/browser';
+import VueI18n from 'vue-i18n';
+const messages = {
+    en: {
+
+        '今日': 'Today',
+        '最近7天': 'Last 7 day',
+        '最近14天':'Last 14 day',
+        '花费':'Amount spent',
+        '预算':'Budget',
+        '购买数量':'Quantity purchased',
+        '收入':'Amount income',
+        '花费/收入':'(Spend/Income)%',
+        '收入/花费':'Income/Spend',
+        '加购物车数量':'Number of shopping carts added',
+        '加购物车成本':'Plus shopping cart costs',
+        '单次点击费用':'Single click charge',
+        '广告系列名':'Campaign Name',
+        '广告组名':'Ad Set Name',
+        '广告名':'Ad Name',
+        '大于':' > ',
+        '大于等于':' >= ',
+        '小于':' < ',
+        '小于等于':' <= ',
+        '等于':' = ',
+        '不包含':'Does not contain',
+        '包含':'Contain',
+    },
+    zh: {
+        '今日': '今日',
+        '最近7天':'最近7天',
+        '最近14天':'最近14天',
+        '花费':'花费',
+        '预算':'预算',
+        '购买数量':'购买数量',
+        '收入':'收入',
+        '花费/收入':'花费/收入',
+        '收入/花费':'收入/花费',
+        '加购物车数量':'加购物车数量',
+        '加购物车成本':'加购物车成本',
+        '单次点击费用':'单次点击费用',
+        '广告系列名':'广告系列名',
+        '广告组名':'广告组名',
+        '广告名':'广告名',
+        '大于':'大于',
+        '大于等于':'大于等于',
+        '小于':'小于',
+        '小于等于':'小于等于',
+        '等于':'等于',
+        '不包含':'不包含',
+        '包含':'包含',
+    }
+}
+// Create VueI18n instance with options
+var locale='en';
+try{
+    var local=localStorage.getItem('data');
+    local=JSON.parse(local);
+    locale=local.lang?local.lang:'en';
+}catch(e){}
+
+const i18n = new VueI18n({
+    locale: locale, // set locale
+    messages, // set locale messages
+})
 export default {
     json:{
         "type": "data_comparison",
@@ -9,15 +73,15 @@ export default {
                 "name": "date",
                 "options": [
                     [
-                        "今日",
+                        i18n.t("今日"),
                         "0"
                     ],
                     [
-                        "最近7天",
+                        i18n.t("最近7天"),
                         "7"
                     ],
                     [
-                        "最近14天",
+                        i18n.t("最近14天"),
                         "14"
                     ]
                 ]
@@ -27,51 +91,51 @@ export default {
                 "name": "field",
                 "options": [
                     [
-                        "花费（Amount Spent）",
+                        i18n.t("花费")+"（Amount Spent）",
                         "getAmountSpent"
                     ],
                     [
-                        "预算（Budget）",
+                        i18n.t("预算")+"（Budget）",
                         "getBudget"
                     ],
                     [
-                        "购买数量（Purchase）",
+                        i18n.t("购买数量")+"（Purchase）",
                         "getPurchase"
                     ],
                     [
-                        "收入（Purchase Value）",
+                        i18n.t("收入")+"（Purchase Value）",
                         "getPurchaseValue"
                     ],
                     [
-                        "花费/收入（ROAS）",
+                        i18n.t("花费/收入")+"（ROAS）",
                         "getROAS"
                     ],
                     [
-                        "收入/花费（ROI）",
+                        i18n.t("收入/花费")+"（ROI）",
                         "getROI"
                     ],
                     [
-                        "加购物车数量（Add Cart）",
+                        i18n.t("加购物车数量")+"（Add Cart）",
                         "getAddCart"
                     ],
                     [
-                        "加购物车成本（CPA）",
+                        i18n.t("加购物车成本")+"（CPA）",
                         "getCPA"
                     ],
                     [
-                        "单次点击费用（CPC）",
+                        i18n.t("单次点击费用")+"（CPC）",
                         "getCPC"
                     ],
                     [
-                        "广告系列名（Campaign Name）",
+                        i18n.t("广告系列名")+"（Campaign Name）",
                         "getCampaignName"
                     ],
                     [
-                        "广告组名（Adset Name）",
+                        i18n.t("广告组名")+"（Adset Name）",
                         "getAdsetName"
                     ],
                     [
-                        "广告名（Ad Name）",
+                        i18n.t("广告名")+"（Ad Name）",
                         "getAdName"
                     ]
                 ]
@@ -81,31 +145,31 @@ export default {
                 "name": "expression",
                 "options": [
                     [
-                        "大于",
+                        i18n.t("大于"),
                         ">"
                     ],
                     [
-                        "大于等于",
+                        i18n.t("大于等于"),
                         ">="
                     ],
                     [
-                        "小于",
+                        i18n.t("小于"),
                         "<"
                     ],
                     [
-                        "小于等于",
+                        i18n.t("小于等于"),
                         "<="
                     ],
                     [
-                        "等于",
+                        i18n.t("等于"),
                         "=="
                     ],
                     [
-                        "不包含",
+                        i18n.t("不包含"),
                         "NLI"
                     ],
                     [
-                        "包含",
+                        i18n.t("包含"),
                         "LI"
                     ]
                 ]
