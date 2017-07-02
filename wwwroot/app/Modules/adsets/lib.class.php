@@ -128,6 +128,7 @@ class lib{
     function getAdsetsData($adset_id){
 
         $where=" AI.date_stop='".date('Y-m-d',NOW_TIME)."' ";
+        if(__APP__POS=='CC__DEV'){ $where=' 1=1 ';}
         $ac_id=I('request.ac_id');
         if($ac_id){
             $where.=" AND adsets.account_id='$ac_id' ";

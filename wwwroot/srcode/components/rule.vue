@@ -7,27 +7,21 @@
 			<input v-model="form.id" type="hidden"></input>
 			<input v-model="form.code" type="hidden"></input>
 			<input v-model="form.xml" type="hidden"></input>
-			<el-form-item label="规则名称（尽量描述清楚规则）">
-				<el-input v-model="form.name"></el-input>
+			<el-form-item :label="$t('Rule Name')">
+				<el-input v-model="form.name" :placeholder="$t('Rule Name')"></el-input>
 			</el-form-item>
-			<el-form-item label="规则片段大小(不设定将根据代码字节大小判断)">
-				<el-select v-model="form.type" placeholder="请选择片段大小">
-					<el-option label="简单规则" value="0"></el-option>
-					<el-option label="小型片段" value="1"></el-option>
-					<el-option label="大型片段" value="2"></el-option>
-				</el-select>
-			</el-form-item>
-			<el-form-item label="规则内容">
+			<el-form-item :label="$t('Rule Content')">
 				<div id="blocklyDiv" :style="{height: blockly.height+'px', width: blockly.width+'px'}"></div>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="primary" @click="onSubmit">保存规则</el-button>
+				<el-button type="primary" @click="onSubmit">{{$t('Save Rule')}}</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
 </template>
 <script>
     import Vue from 'vue'
+    import { mapState } from 'vuex'
     import ElementUI from 'element-ui'
     import 'element-ui/lib/theme-default/index.css'
     import Blockly from 'node-blockly/browser';
@@ -35,9 +29,41 @@
     import vk from '../vk.js';
     import uri from '../uri.js';
 
-    Vue.use(ElementUI)
+    import VueI18n from 'vue-i18n'
+    import ElementLocale from 'element-ui/lib/locale'
+    import enLocale from 'element-ui/lib/locale/lang/en'
+    import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
-	export default {
+    Vue.use(VueI18n)
+    const messages = {
+        en: {
+
+            'Rule Name':'Rule Name',
+			'Rule Content':'Rule Content',
+            'Save Rule':'Save Rule',
+            'Successful operation':'Successful operation',
+
+            ...enLocale
+        },
+        zh: {
+            'Rule Name':'规则名称',
+            'Rule Content':'规则内容',
+            'Save Rule':'保存规则',
+            'Successful operation':'操作成功',
+
+            ...zhLocale
+        }
+    }
+    // Create VueI18n instance with options
+    const i18n = new VueI18n({
+        locale: 'en', // set locale
+        messages, // set locale messages
+    })
+
+    ElementLocale.i18n(key => i18n.t(key))
+
+	var App={
+        computed: mapState({ lang:state => state.data?state.data.lang:"en" }),
         data:function(){
         	return {
                 blockly:{
@@ -97,6 +123,7 @@
 			}
 		},
         mounted(){
+            i18n.locale=this.lang;
             var that=this;
             /////
 			
@@ -164,4 +191,5 @@
 			
         }
     }
+    export default {i18n,...App}
 </script>

@@ -19,26 +19,26 @@
 					width="55">
 			</el-table-column>
 			<el-table-column prop="id" label="ID" width="60"></el-table-column>
-			<el-table-column prop="name" label="规则名称"  ></el-table-column>
-			<el-table-column prop="type" label="规则大小" width="80">
+			<el-table-column prop="name" :label="$t('Rule Name')"  ></el-table-column>
+			<el-table-column prop="type" :label="$t('Rule Size')" width="80">
 				<template scope="scope">
 					<template v-if=" scope.row.type == 2 ">
-						大型片段
+						{{$t('Rule Size Big')}}
 					</template>
 					<template v-else-if=" scope.row.type == 1 ">
-						小型片段
+						{{$t('Rule Size Small')}}
 					</template>
 					<template v-else>
-						简单规则
+						{{$t('Rule Size Simple')}}
 					</template>
 				</template>
 			</el-table-column>
 		</el-table>
 		<br>
 		<el-form ref="form" :model="form" label-width="80px">
-			<el-form-item label="执行时间">
+			<el-form-item :label="$t('run time')">
 				<el-time-select :picker-options="{start: '10:00',step: '00:30',end: '22:00'}"
-								placeholder="选择时间" v-model="form.date" :editable="false"
+								:placeholder="$t('el.select.placeholder')" v-model="form.date" :editable="false"
 								:clearable="false"></el-time-select>
 			</el-form-item>
 		</el-form>
@@ -51,8 +51,45 @@
     import 'element-ui/lib/theme-default/index.css'
     import vk from '../vk.js';
     import uri from '../uri.js';
-    Vue.use(ElementUI)
-    export default {
+    import VueI18n from 'vue-i18n'
+    import ElementLocale from 'element-ui/lib/locale'
+    import enLocale from 'element-ui/lib/locale/lang/en'
+    import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+
+    Vue.use(VueI18n)
+    const messages = {
+        en: {
+
+            'Rule Name':'Rule Name',
+            'Rule Size':'Rule Size',
+            'Rule Size Big':'Large rules',
+            'Rule Size Small':'Small rule',
+            'Rule Size Simple':'Simple rule',
+            'operation':'Operation',
+            'Successful operation':'Successful operation',
+            'run time':"Timed execution",
+            ...enLocale
+        },
+        zh: {
+            'Rule Name':'规则名称',
+            'Rule Size':'规则大小',
+			'Rule Size Big':'大型片段',
+            'Rule Size Small':'小型片段',
+            'Rule Size Simple':'简单规则',
+            'operation':'操作',
+            'Successful operation':'操作成功',
+			'run time':"执行时间",
+            ...zhLocale
+        }
+    }
+    // Create VueI18n instance with options
+    const i18n = new VueI18n({
+        locale: 'en', // set locale
+        messages, // set locale messages
+    })
+
+    ElementLocale.i18n(key => i18n.t(key))
+    var App= {
         data:function(){
             return {
                 rulesData:[],
@@ -92,7 +129,7 @@
                         this.toggleSelection();
                         break;
 					case uri.saveRulesForAd.code:
-					    vk.toast('操作成功','msg');
+					    vk.toast(i18n('Successful operation'),'msg');
                         break;
                 }
             },
@@ -128,4 +165,5 @@
 			}
         }
     }
+    export default {i18n,...App}
 </script>

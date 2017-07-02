@@ -13,7 +13,7 @@
 <template>
 	<div>
 		<el-tabs v-model="activeName" @tab-click="handleTabClick">
-			<el-tab-pane label="优化记录" name="getRulesLog">
+			<el-tab-pane :label="$t('Optimized record')" name="getRulesLog">
 				<el-table :data="rulesLog" border style="width: 100%" max-height="750">
 					<el-table-column type="expand" fixed>
 						<template scope="scope">
@@ -21,14 +21,14 @@
 										rulesLog="rulesLog"></v-ad_table>
 						</template>
 					</el-table-column>
-					<el-table-column :formatter="formatExecTarget" label="执行目标" width="180"></el-table-column>
-					<el-table-column prop="time_format" label="执行时间"  width="120"></el-table-column>
-					<el-table-column :formatter="formatExecRule" label="执行规则"  ></el-table-column>
-					<el-table-column prop="rule_exec" label="执行结果"  ></el-table-column>
+					<el-table-column :formatter="formatExecTarget" :label="$t('Executed target')" width="180"></el-table-column>
+					<el-table-column prop="time_format" :label="$t('Executed time')"  width="120"></el-table-column>
+					<el-table-column :formatter="formatExecRule" :label="$t('Executed rule')"  ></el-table-column>
+					<el-table-column prop="rule_exec" :label="$t('Executed results')"  ></el-table-column>
 				</el-table>
 			</el-tab-pane>
-			<el-tab-pane label="优化统计" name="RulesExecTotal">
-				优化统计
+			<el-tab-pane :label="$t('Optimized statistics')" name="RulesExecTotal">
+				{{$t('Optimized statistics')}}
 			</el-tab-pane>
 		</el-tabs>
 	</div>
@@ -40,16 +40,48 @@
     import 'element-ui/lib/theme-default/index.css'
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
-    Vue.use(ElementUI)
-    export default {
+    import VueI18n from 'vue-i18n'
+    import ElementLocale from 'element-ui/lib/locale'
+
+    Vue.use(VueI18n)
+    const messages = {
+        en: {
+
+            'Optimized record': 'Optimized record',
+            'Optimized statistics':'Optimized statistics',
+            'Executed target':'Executed target',
+            'Executed time':'Executed time',
+            'Executed rule':'Executed rule',
+            'Executed results':'Executed results',
+
+        },
+        zh: {
+            'Optimized record': '优化记录',
+            'Optimized statistics':'优化统计',
+            'Executed target':'执行目标',
+            'Executed time':'执行时间',
+            'Executed rule':'执行规则',
+            'Executed results':'执行结果',
+
+        }
+    }
+    // Create VueI18n instance with options
+    const i18n = new VueI18n({
+        locale: 'en', // set locale
+        messages, // set locale messages
+    })
+
+    ElementLocale.i18n(key => i18n.t(key))
+    var App={
         data:function(){
             return {
                 activeName: 'getRulesLog',
                 rulesLog:[],
 			}
 		},
-        computed: mapState({ user: state => state.user }),
+        computed: mapState({ user: state => state.user,lang:state => state.data?state.data.lang:"en" }),
         mounted(){
+            i18n.locale=this.lang;
             var params={};
             vk.http(uri.getRulesLog,params,this.then);
         },
@@ -87,4 +119,5 @@
 //			}
 		}
     }
+    export default {i18n,...App}
 </script>

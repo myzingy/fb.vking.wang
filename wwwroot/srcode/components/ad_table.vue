@@ -9,7 +9,7 @@
 		<el-table-column type="expand" fixed>
 			<template scope="props">
 				<el-table :data="props.row.List" border style="width: 100%">
-					<el-table-column :formatter="formatChildDate" label="日期" width="150"></el-table-column>
+					<el-table-column :formatter="formatChildDate" label="Date" width="150"></el-table-column>
 					<template v-if=" rulesLog == 'rulesLog' ">
 						<el-table-column label="ROI" width="40" :formatter="formatROI"></el-table-column>
 						<el-table-column label="ROAS" width="60" :formatter="formatROAS"></el-table-column>
@@ -80,12 +80,12 @@
 			<el-table-column prop="Ends" label="Ends" width="80"></el-table-column>
 		</template>
 		<template v-if=" dataType == 'campaign' ">
-			<el-table-column label="操作" width="80" fixed="right">
+			<el-table-column :label="$t('operation')" width="80" fixed="right">
 				<template scope="scope">
 					<el-button @click="openRulesDialog(scope.row)"
 							   type="text"
 							   size="small">
-						规则
+						{{$t('Rule')}}
 					</el-button>
 				</template>
 			</el-table-column>
@@ -100,9 +100,36 @@
     import vk from '../vk.js';
     import uri from '../uri.js';
 
-    Vue.use(ElementUI)
+    import VueI18n from 'vue-i18n'
+    import ElementLocale from 'element-ui/lib/locale'
+    import enLocale from 'element-ui/lib/locale/lang/en'
+    import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
-	export default {
+    Vue.use(VueI18n)
+    const messages = {
+        en: {
+
+            'Rule': 'Rule',
+            'operation':'Operation',
+            'Successful operation':'Successful operation',
+            ...enLocale
+        },
+        zh: {
+            'Rule': '规则',
+            'operation':'操作',
+            'Successful operation':'操作成功',
+            ...zhLocale
+        }
+    }
+    // Create VueI18n instance with options
+    const i18n = new VueI18n({
+        locale: 'en', // set locale
+        messages, // set locale messages
+    })
+
+    ElementLocale.i18n(key => i18n.t(key))
+
+	var App={
         data:function(){
         	return {
                 
@@ -152,7 +179,7 @@
 						return;
 					}
 					if (index === 2) {
-						sums[index] = '共计('+data.length+')条';
+						sums[index] = i18n.t('el.transfer.noCheckedFormat',{total:data.length});
 						return;
 					}
 
@@ -196,4 +223,5 @@
 
         }
     }
+    export default {i18n,...App}
 </script>
