@@ -108,7 +108,7 @@
 			<div class="row">
 				<h1 class="centered">Marketing tools GUI</h1>
 				<br>
-				<div class="col-lg-8 col-lg-offset-2">
+				<div class="col-lg-12">
 					<div id="carousel-example-generic" class="carousel slide">
 					  <!-- Indicators -->
 					  <ol class="carousel-indicators">

@@ -6144,7 +6144,7 @@ body.modal-open,
   margin: 1px;
   text-indent: -999px;
   cursor: pointer;
-  border: 1px solid #ffffff;
+  border: 1px solid #34495e;
   border-radius: 10px;
 }
 
@@ -6152,7 +6152,7 @@ body.modal-open,
   width: 12px;
   height: 12px;
   margin: 0;
-  background-color: #ffffff;
+  background-color: #34495e;
 }
 
 .carousel-caption {
