@@ -277,6 +277,7 @@ END;
             $mod->where(" FROM_UNIXTIME($time-UA.utc_seconds) >'{$time_s}' AND  FROM_UNIXTIME($time-UA.utc_seconds)<'{$time_e}' ");
             $mod->limit($offset,self::FBC_LIMIT_NUM);
             $data=$mod->select();
+            echo $mod->getLastSql();
         }
         return $data;
     }
