@@ -142,8 +142,14 @@ END;
     }
     function addAccounts($user){
         $checked=I('request.checked');
-        $nowtime=I('request.nowtime',NOW_TIME*1000);
-        $utc=(int)(($nowtime-NOW_TIME*1000)/1000);
+        $nowtime=I('request.nowtime');
+        if($nowtime){
+            $nowtime=strtotime($nowtime);
+            $utc=$nowtime-NOW_TIME;
+        }else{
+            $utc=0;
+        }
+
         $data=[];
         //$account_ids=[];
         foreach ($checked as $r){
