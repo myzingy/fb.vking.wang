@@ -113,9 +113,9 @@ function formatInsightsData($data,$type='campaign'){
     }
     return $data;
 }
-function getDayTime($his,$day_num=1){
+function getDayTime($his,$day_num=1,$utc_seconds=0){
     $format="Y-m-d $his";
-    return strtotime("$day_num day", strtotime(date($format,NOW_TIME)));
+    return strtotime("$day_num day", strtotime(date($format,NOW_TIME)))+$utc_seconds;
 }
 function FBC($ac_id=""){
     $lib=new \Modules\accounts\lib();

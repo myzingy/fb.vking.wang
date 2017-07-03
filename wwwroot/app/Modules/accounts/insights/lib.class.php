@@ -208,7 +208,7 @@ END;
         if($ad_timespace=='today' && !$breakdowns) {
             //其它Insights
             asyn('apido/asyn.flushAccountsInsights',array('ad_timespace'=>'yestoday','ac_id'=>$ac_id),null,
-                getDayTime("00:01:00"),0);
+                getDayTime("00:01:00",1,$ac['utc_seconds']),0);
         }
         return $breakdowns_data?$breakdowns_data:$campaigns_data;
     }
