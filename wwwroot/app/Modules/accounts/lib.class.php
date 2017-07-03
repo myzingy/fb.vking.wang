@@ -274,7 +274,7 @@ END;
             $time_e=$day." 20:00:00";
             $offset=I('request.offset',0);
             $mod->field("UA.account_id,UA.account_name");
-            $mod->where(" FROM_UNIXTIME($time-UA.utc_seconds) >'{$time_s}' AND  FROM_UNIXTIME($time-UA.utc_seconds)<'{$time_e}' ");
+            $mod->where(" FROM_UNIXTIME($time+UA.utc_seconds) >'{$time_s}' AND  FROM_UNIXTIME($time+UA.utc_seconds)<'{$time_e}' ");
             $mod->limit($offset,self::FBC_LIMIT_NUM);
             $data=$mod->select();
             echo $mod->getLastSql();
