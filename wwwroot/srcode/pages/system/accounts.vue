@@ -130,7 +130,7 @@ var App={
             bindFbAccounts(){
                 var checked=this.$refs.accounts_fb.checked;
                 if(checked.length>0){
-                    vk.http(uri.addAccounts,{checked:checked},this.then);
+                    vk.http(uri.addAccounts,{checked:checked,nowtime:new Date().getTime()},this.then);
 				}
 			},
             unBindAccount(index,row){

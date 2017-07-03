@@ -142,6 +142,8 @@ END;
     }
     function addAccounts($user){
         $checked=I('request.checked');
+        $nowtime=I('request.nowtime',NOW_TIME*1000);
+        $utc=(int)(($nowtime-NOW_TIME*1000)/1000);
         $data=[];
         //$account_ids=[];
         foreach ($checked as $r){
@@ -150,6 +152,7 @@ END;
                 'account_name'=>$r['name'],
                 'user_id'=>$user->id,
                 'root_id'=>$user->root?$user->root:$user->id,
+                'utc_seconds'=>$utc
             );
             //$account_ids[]=$r['account_id'];
         }
@@ -258,8 +261,14 @@ END;
             $fbapp=C('fbapp');
             $data=array_merge($data,$fbapp);
         }else{
+            //20:00-08:00 不获取数据
+            $time=NOW_TIME;
+            $day=date("Y-m-d",$time);
+            $time_s=$day." 08:00:00";
+            $time_e=$day." 20:00:00";
             $offset=I('request.offset',0);
             $mod->field("UA.account_id,UA.account_name");
+            $mod->where(" FROM_UNIXTIME($time-UA.utc_seconds) >'{$time_s}' AND  FROM_UNIXTIME($time-UA.utc_seconds)<'{$time_e}' ");
             $mod->limit($offset,self::FBC_LIMIT_NUM);
             $data=$mod->select();
         }
