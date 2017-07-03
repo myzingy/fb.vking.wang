@@ -22,7 +22,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column :formatter="formatExecTarget" :label="$t('Executed target')" width="180"></el-table-column>
-					<el-table-column prop="time_format" :label="$t('Executed time')"  width="120"></el-table-column>
+					<el-table-column :formatter="formatTime" :label="$t('Executed time')"  width="120"></el-table-column>
 					<el-table-column :formatter="formatExecRule" :label="$t('Executed rule')"  ></el-table-column>
 					<el-table-column prop="rule_exec" :label="$t('Executed results')"  ></el-table-column>
 				</el-table>
@@ -111,6 +111,9 @@
             },
             formatExecRule:function(row){
                 return '['+row.rule_id+']'+row.rule_name;
+			},
+            formatTime(row){
+                return vk.date('YYYY-MM-DD HH:II',row.time);
 			},
 //            expandTab:function(row, expanded){
 //            	this.expandTabData=[JSON.parse(row.target_data)];
