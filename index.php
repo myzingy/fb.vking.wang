@@ -39,7 +39,7 @@
 	            <li class="active"><a href="#home" class="smothscroll">Power Editor</a></li>
 	            <li class=""><a href="#desc" class="smothscroll">Ads Manager</a></li>
 	            <li class=""><a href="#showcase" class="smothScroll">Business Manager</a></li>
-                  <li class=""><a href="./wwwrootdist" class="smothScroll" style="color: #f00; font-weight: bold;">Start Play</a></li>
+                  <li class=""><a href="./wwwrootdist" class="smothScroll" style="color: #f00; font-weight: bold;">Start Play (Free 15 Day)</a></li>
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>
@@ -81,7 +81,7 @@
 		<div class="container">
 			<div class="row centered">
 				<h1>Simple and effective</h1>
-				<br>
+                <br>
 				<br>
 				<div class="col-lg-4">
 					<img src="./assets/intro01.png" alt="">
@@ -98,7 +98,8 @@
 					<h3>Timed execution</h3>
 					<p>When the time comes, the rules can only wait.</p>
 				</div>
-			</div>
+                <h1 style="color:red;margin-bottom: 20px; font-weight: bold;"><a href="./wwwrootdist">Start play , Free 15 day</a></h1>
+            </div>
 	    </div> <!--/ .container -->
 	</div><!--/ #introwrap -->
 
