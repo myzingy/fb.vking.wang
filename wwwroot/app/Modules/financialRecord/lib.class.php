@@ -35,4 +35,18 @@ class lib{
         }
         var_dump('orderUpdate');
     }
+    function getFinancialFlow($user){
+        $root_id=$user->root?$user->root:$user->id;
+        $balance=M('financial_record')->where("root_id='{$root_id}'")->sum('value')+0;
+        $list=M('financial_record')
+            ->where("root_id='{$root_id}'")
+            ->order("addtime desc")
+            ->limit(50)
+            ->select();
+        return ['data'=>array(
+            'balance'=>$balance,
+            'list'=>$list,
+            'root'=>$user->root
+        )];
+    }
 }
