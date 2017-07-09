@@ -14,7 +14,9 @@ class lib{
 		}
     }
     function orderUpdate(){
-        debug('orderUpdate '.date("H:i"),I('request.'));
+        $data=file_get_contents("php://input");
+        $data=@json_decode($data,true);
+        debug('orderUpdate '.date("H:i"),$data);
         var_dump('orderUpdate');
     }
 }
