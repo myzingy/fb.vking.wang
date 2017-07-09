@@ -279,6 +279,10 @@ class AppLogic {
         $lib = new \Modules\campaigns\lib();
         return $lib -> postErpCampaign();
     }
+    function asy__orderUpdate(){
+        $lib = new \Modules\financialRecord\lib();
+        return $lib -> orderUpdate();
+    }
 	############################################################
 	# 一些异步接口结束
 	############################################################
