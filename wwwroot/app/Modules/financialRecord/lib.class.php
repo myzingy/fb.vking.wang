@@ -30,6 +30,7 @@ class lib{
                 'order_id'=>$data['order_key'],
                 'value'=>($data['total']+$data['discount_total'])*100,
                 'discount_value'=>$data['discount_total']*100,
+                'addtime'=>NOW_TIME
             ));
         }
         var_dump('orderUpdate');
