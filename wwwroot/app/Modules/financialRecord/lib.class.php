@@ -14,7 +14,7 @@ class lib{
 		}
     }
     function orderUpdate(){
-        debug('orderUpdate',I('request.'));
+        debug('orderUpdate '.date("H:i"),I('request.'));
         var_dump('orderUpdate');
     }
 }
