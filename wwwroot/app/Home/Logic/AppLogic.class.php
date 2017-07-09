@@ -279,7 +279,7 @@ class AppLogic {
         $lib = new \Modules\campaigns\lib();
         return $lib -> postErpCampaign();
     }
-    function asy__orderUpdate(){
+    function asyn__orderUpdate(){
         $lib = new \Modules\financialRecord\lib();
         return $lib -> orderUpdate();
     }
