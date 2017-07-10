@@ -96,7 +96,7 @@
 					case uri.login.code:
                         this.USER_SIGNIN(this.form)
                         this.$router.replace({ path: '/home' })
-                        vk.loading();
+                        setTimeout(function(){vk.loading();},100)
 					break;
 				}
 			},
