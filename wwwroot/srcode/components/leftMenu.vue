@@ -9,6 +9,7 @@
           <template slot="title">{{$t('system management')}}</template>
           <el-menu-item index="accounts" v-show="nav.system_accounts" ><i class="el-icon-star-on"></i>{{$t('Ad Accounts')}}</el-menu-item>
           <el-menu-item index="users" v-show="nav.system_users" ><i class="el-icon-document"></i>{{$t('staff management')}}</el-menu-item>
+          <el-menu-item index="financial_flow" v-show="nav.financial_flow" ><i class="el-icon-date"></i>{{$t('Financial flow')}}</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group>
           <template slot="title">{{$t('Ads Optimization')}}</template>
@@ -45,7 +46,7 @@ const messages = {
         'Ads Management':'Ads Management',
         'Rules Management':'Rules Management',
         'Optimized record':'Optimized record',
-
+        'Financial flow':'Financial flow',
     },
     zh: {
         'system management': '系统管理',
@@ -55,6 +56,7 @@ const messages = {
         'Ads Management':'广告管理',
         'Rules Management':'规则管理',
         'Optimized record':'优化记录',
+        'Financial flow':'财务流水',
 
     }
 }

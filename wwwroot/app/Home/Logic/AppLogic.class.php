@@ -132,6 +132,10 @@ class AppLogic {
         $lib = new \Modules\accounts\lib();
         return $lib->setAccountsForEmail();
     }
+    function user__getFinancialFlow(){
+        $lib = new \Modules\financialRecord\lib();
+        return $lib -> getFinancialFlow($this->user);
+    }
 	############################################################
 	# 一些异步接口开始
 	############################################################
@@ -278,6 +282,10 @@ class AppLogic {
     function asyn__postErpCampaign(){
         $lib = new \Modules\campaigns\lib();
         return $lib -> postErpCampaign();
+    }
+    function asyn__orderUpdate(){
+        $lib = new \Modules\financialRecord\lib();
+        return $lib -> orderUpdate();
     }
 	############################################################
 	# 一些异步接口结束
