@@ -3,6 +3,7 @@ import VueResource  from 'vue-resource'
 import { Message,MessageBox } from 'element-ui';
 import store from './store/'
 import URI from './uri.js'
+import { Loading } from 'element-ui';
 Vue.use(VueResource);
 let vk={
     isProduction:function(){
@@ -56,9 +57,11 @@ let vk={
         console.log('postdata',data);
         Vue.http.post(url,data,{emulateJSON: true}).then(
             (response) => {
+                that.loading(false);
                 that.then(response.body,uri,callback);
             },
             (response) => {
+                that.loading(false);
                 that.then(response.body,uri,callback);
             }
         );
@@ -138,5 +141,9 @@ let vk={
         tpl=tpl.replace('SS',ss>9?ss:'0'+ss);
         return tpl;
     },
+    loading(flag=true){
+        var load=Loading.service({ fullscreen: true });
+        if(!flag) setTimeout(function(){load.close();},100);
+    }
 };
 export default vk;

@@ -129,6 +129,7 @@
 		},
         computed: mapState({ user: state => state.user,ac_id: state => state.data?state.data.ac_id:"",lang:state => state.data?state.data.lang:"en"}),
         mounted(){
+            vk.loading(false);
             console.log('store.state.data',this.ac_id);
             this.langx=this.lang?this.lang:'en';
             i18n.locale=this.langx;

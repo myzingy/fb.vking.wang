@@ -84,6 +84,7 @@
             i18n.locale=this.lang;
             var params={};
             vk.http(uri.getRulesLog,params,this.then);
+            vk.loading(false);
         },
         methods:{
             then:function(json,code){

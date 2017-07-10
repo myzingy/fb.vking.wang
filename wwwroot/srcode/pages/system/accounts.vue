@@ -96,6 +96,7 @@ var App={
         mounted(){
             i18n.locale=this.lang;
 			this.init();
+			vk.loading(false);
         },
         methods:{
             init(){

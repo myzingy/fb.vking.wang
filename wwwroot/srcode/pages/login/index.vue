@@ -95,6 +95,7 @@
 			    switch (code){
 					case uri.login.code:
                         this.USER_SIGNIN(this.form)
+                        vk.loading();
                         this.$router.replace({ path: '/home' })
 					break;
 				}

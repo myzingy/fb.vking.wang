@@ -84,7 +84,6 @@
     import ElementLocale from 'element-ui/lib/locale'
     import enLocale from 'element-ui/lib/locale/lang/en'
     import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-
     Vue.use(VueI18n)
     const messages = {
         en: {
@@ -149,6 +148,7 @@
         mounted(){
             i18n.locale=this.lang;
             this.getData();
+            vk.loading(false);
         },
         methods:{
             getData(){

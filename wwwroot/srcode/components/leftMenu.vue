@@ -34,7 +34,6 @@ import uri from '../uri.js'
 
 import VueI18n from 'vue-i18n'
 import ElementLocale from 'element-ui/lib/locale'
-
 Vue.use(VueI18n)
 
 const messages = {
@@ -92,7 +91,10 @@ var App={
             console.log(key, keyPath);
         },
         handleSelect(key, keyPath){
-            console.log(key, keyPath);
+            console.log(key, keyPath,location.hash);
+            if(location.hash.indexOf(key)<0){
+                vk.loading();
+            }
         }
     },
 }
