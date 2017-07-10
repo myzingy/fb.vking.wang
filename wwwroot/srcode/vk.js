@@ -143,7 +143,7 @@ let vk={
     },
     loading(flag=true){
         var load=Loading.service({ fullscreen: true });
-        if(!flag) setTimeout(function(){load.close();},100);
+        if(!flag) setTimeout(function(){load.close();},0);
     }
 };
 export default vk;
