@@ -56,7 +56,7 @@
 				<el-col :span="20" style="height:100%;">
 					<div :style="{ height:height_cc +'px' }" class="grid-content bg-purple-dark overflow-y"
 						 id="app_right_content">
-						<v-rightContent></v-rightContent>
+						<rightContent :content="contentHash"></rightContent>
 					</div>
 				</el-col>
 			</el-row>
@@ -79,6 +79,7 @@
     import uri from '../../uri.js';
     import statistical from './statistical.vue';
 
+    import rightContent from './rightContent.vue' //加载右侧页面
     import VueI18n from 'vue-i18n'
     //import enLocale from 'element-ui/lib/locale/lang/en'
     //import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
@@ -115,7 +116,7 @@
 
 	var App={
         components:{
-            statistical:statistical
+            statistical,rightContent
 		},
         data:function(){
             return {
@@ -125,9 +126,14 @@
                 acs:[],
                 ac_idx:!vk.isProduction(),
                 langx:'en',
+                contentHash:"",
 			}
 		},
-        computed: mapState({ user: state => state.user,ac_id: state => state.data?state.data.ac_id:"",lang:state => state.data?state.data.lang:"en"}),
+        computed: mapState({
+            user: state => state.user,
+            ac_id: state => state.data?state.data.ac_id:"",
+            lang:state => state.data?state.data.lang:"en",
+        }),
         mounted(){
             vk.loading(false);
             console.log('store.state.data',this.ac_id);
@@ -136,6 +142,7 @@
             this.height=document.body.scrollHeight-(this.h_height);
             this.height_cc=this.height;
             this.getAcsList();
+            this.setContentHash(location.hash);
         },
         methods:{
             ...mapActions([SET]),
@@ -177,7 +184,13 @@
 			getAcsList(){
                 //vk.http(uri.getAcsList,{},this.then);
                 vk.http(uri.getFBAccounts,{},this.then);
-			}
+			},
+            setContentHash(hash){
+                hash=hash.replace('#/','');
+                //if(!hash) return;
+			    console.log('setContentHash',hash);
+			    this.contentHash=hash.replace('#/','');
+            }
         },
     }
     export default {i18n,...App}
