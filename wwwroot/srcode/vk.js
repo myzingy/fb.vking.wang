@@ -1,9 +1,9 @@
 import Vue  from 'vue'
 import VueResource  from 'vue-resource'
-import { Message,MessageBox } from 'element-ui';
+import { Message,MessageBox,Loading } from 'element-ui';
 import store from './store/'
-import URI from './uri.js'
-import { Loading } from 'element-ui';
+//import URI from './uri.js'
+
 Vue.use(VueResource);
 let vk={
     isProduction:function(){

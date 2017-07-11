@@ -36,8 +36,8 @@
 <script>
     import Vue from 'vue'
     import { mapState } from 'vuex'
-    import ElementUI from 'element-ui'
-    import 'element-ui/lib/theme-default/index.css'
+    //import ElementUI from 'element-ui'
+    //import 'element-ui/lib/theme-default/index.css'
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
     import ad_table from '../ads/ad_table.vue';

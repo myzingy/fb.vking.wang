@@ -24,12 +24,12 @@
 </template>
 <script>
     import Vue from 'vue'
-    import { mapState } from 'vuex'
-    import ElementUI from 'element-ui'
-    import 'element-ui/lib/theme-default/index.css'
+    //import { mapState } from 'vuex'
+    //import ElementUI from 'element-ui'
+    //import 'element-ui/lib/theme-default/index.css'
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
-    Vue.use(ElementUI)
+    //Vue.use(ElementUI)
     export default {
         props:['type'],
         data:function(){
@@ -39,7 +39,7 @@
                 hashChecked:[],
 			}
 		},
-        computed: mapState({ user: state => state.user }),
+        //computed: mapState({ user: state => state.user }),
         mounted(){
             var params={};
             if(this.type=='nofb'){

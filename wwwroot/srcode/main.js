@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import routes from './config/routes'
 import store from './store/'
 import components from './components/' //加载公共组件
-
+import 'element-ui/lib/theme-default/index.css'
 
 
 Object.keys(components).forEach((key) => {

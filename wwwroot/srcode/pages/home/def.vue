@@ -14,7 +14,7 @@
     import 'element-ui/lib/theme-default/index.css'
     import vk from '../../vk.js';
     import VueI18n from 'vue-i18n'
-    import ElementLocale from 'element-ui/lib/locale'
+    //import ElementLocale from 'element-ui/lib/locale'
 
     Vue.use(VueI18n)
 

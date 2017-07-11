@@ -22,11 +22,6 @@ export default [
                 component: resolve => require(['../pages/home/index.vue'], resolve)
             },
             {
-                path: '/', //首页
-                meta: { auth: true },
-                component: resolve => require(['../pages/home/index.vue'], resolve)
-            },
-            {
                 path: 'adsList*', //广告列表
                 component: resolve => require(['../pages/home/index.vue?adsList'], resolve)
             },

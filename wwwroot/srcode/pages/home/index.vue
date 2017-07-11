@@ -83,7 +83,7 @@
     import VueI18n from 'vue-i18n'
     //import enLocale from 'element-ui/lib/locale/lang/en'
     //import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-    import ElementLocale from 'element-ui/lib/locale'
+    //import ElementLocale from 'element-ui/lib/locale'
 
     Vue.use(VueI18n)
 
@@ -148,7 +148,7 @@
             ...mapActions([SET]),
             acChecked:function(ac_id){
                 var old_id=this.ac_id;
-                this.SET({ac_id:ac_id});
+                this.SET({ac_id:ac_id,lang:this.langx});
                 this.ac_idx=ac_id;
                 if(old_id!=ac_id)
                     location.reload();
