@@ -40,6 +40,8 @@
     import 'element-ui/lib/theme-default/index.css'
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
+    import ad_table from '../ads/ad_table.vue';
+
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
 
@@ -73,6 +75,9 @@
 
     ElementLocale.i18n(key => i18n.t(key))
     var App={
+        components:{
+            'v-ad_table':ad_table,
+        },
         data:function(){
             return {
                 activeName: 'getRulesLog',

@@ -49,8 +49,8 @@
     import { mapState } from 'vuex'
     import ElementUI from 'element-ui'
     import 'element-ui/lib/theme-default/index.css'
-    import vk from '../vk.js';
-    import uri from '../uri.js';
+    import vk from '../../vk.js';
+    import uri from '../../uri.js';
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
     import enLocale from 'element-ui/lib/locale/lang/en'

@@ -79,6 +79,7 @@
     import 'element-ui/lib/theme-default/index.css'
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
+    import rule_edit from './rule_edit.vue';
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
     import enLocale from 'element-ui/lib/locale/lang/en'
@@ -127,6 +128,9 @@
 
     ElementLocale.i18n(key => i18n.t(key))
     var App= {
+        components:{
+            'v-rule':rule_edit
+        },
         data:function(){
             return {
                 activeName: 'updateRule',

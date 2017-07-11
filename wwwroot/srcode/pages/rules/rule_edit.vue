@@ -25,9 +25,9 @@
     import ElementUI from 'element-ui'
     import 'element-ui/lib/theme-default/index.css'
     import Blockly from 'node-blockly/browser';
-    import BlocklyLibrary from '../blockly/';
-    import vk from '../vk.js';
-    import uri from '../uri.js';
+    import BlocklyLibrary from '../../blockly/';
+    import vk from '../../vk.js';
+    import uri from '../../uri.js';
 
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
@@ -61,7 +61,6 @@
         locale: 'en', // set locale
         messages, // set locale messages
     })
-
     ElementLocale.i18n(key => i18n.t(key))
 
 	var App={
