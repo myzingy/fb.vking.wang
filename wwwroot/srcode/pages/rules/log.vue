@@ -1,17 +1,17 @@
 <style lang="stylus" rel="stylesheet/scss">
-	.el-table__expanded-cell
-		padding-top 0
-		padding-bottom 0
-	.el-table .cell, .el-table th>div
-		padding-left 3px
-		padding-right 3px
-	 .el-table th>.cell
-		 overflow hidden
-		 height 30px
-	 
+	
 </style>
 <template>
-	<div>
+	<div class="mytable">
+		<headerTop></headerTop>
+		<el-col :span="4" style="height:100%;">
+			<div class="grid-left bg-purple-darkc overflow-y"
+				 id="app_left_menu">
+				<v-leftMenu></v-leftMenu>
+			</div>
+		</el-col>
+		<el-col :span="20" style="height:100%;">
+			<div>
 		<el-tabs v-model="activeName" @tab-click="handleTabClick">
 			<el-tab-pane :label="$t('Optimized record')" name="getRulesLog">
 				<el-table :data="rulesLog" border style="width: 100%" max-height="750">
@@ -32,6 +32,8 @@
 			</el-tab-pane>
 		</el-tabs>
 	</div>
+		</el-col>
+	</div>
 </template>
 <script>
     import Vue from 'vue'
@@ -41,7 +43,8 @@
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
     import ad_table from '../ads/ad_table.vue';
-
+    import headerTop from '../../components/headerTop.vue'
+    
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
 
@@ -77,6 +80,7 @@
     var App={
         components:{
             'v-ad_table':ad_table,
+            headerTop:headerTop,
         },
         data:function(){
             return {

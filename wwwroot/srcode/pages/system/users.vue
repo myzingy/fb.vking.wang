@@ -1,67 +1,69 @@
 <style lang="stylus" rel="stylesheet/scss">
-	.el-table__expanded-cell
-		padding-top 0
-		padding-bottom 0
-	.el-table .cell, .el-table th>div
-		padding-left 3px
-		padding-right 3px
-	 .el-table th>.cell
-		 overflow hidden
-		 height 30px
 	
 </style>
 <template>
-	<div>
-		<el-tabs v-model="activeName">
-			<el-tab-pane :label="$t('Staff Management')" name="getRulesLog">
-				<el-form :inline="true" :model="form" class="demo-form-inline">
-					<el-form-item label="Email">
-						<el-input v-model="form.email" :placeholder="$t('reg fb email')"></el-input>
-					</el-form-item>
-					<el-form-item :label="$t('groups')">
-						<el-select v-model="form.group_id" :placeholder="$t('el.select.placeholder')">
-							<el-option label="Admin" value="0"></el-option>
-							<el-option label="Advertisers" value="1"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item>
-						<el-button type="primary" @click="addUser">{{$t('add staff')}}</el-button>
-					</el-form-item>
-				</el-form>
-				<el-table :data="rulesLog" border style="width: 100%" max-height="750">
-					<el-table-column prop="email" label="Email" width="250"></el-table-column>
-					<el-table-column :formatter="formatUserdata" :label="$t('staff data')" ></el-table-column>
-					<el-table-column :label="$t('groups')"  width="120">
-						<template scope="scope">
-						<el-select v-model="scope.row.group_id" :placeholder="$t('el.select.placeholder')" @change="changeUser(scope.row.group_id,scope.row)">
-							<el-option label="Admin" value="0"></el-option>
-							<el-option label="Advertisers" value="1"></el-option>
-						</el-select>
-						</template>
-					</el-table-column>
-					<el-table-column :label="$t('operation')" width="100"  >
-						<template scope="scope">
-							<el-button type="text" size="small" @click="deleteUser(scope.$index, scope.row)">
-								{{$t('el.upload.delete')}}
-							</el-button>
-							<!--
-							<el-button type="text" size="small" @click="openDialog(scope.$index, scope.row)">
-								权限
-							</el-button>
-							-->
-						</template>
-					</el-table-column>
-				</el-table>
-			</el-tab-pane>
-		</el-tabs>
-		<el-dialog ref="accountDialog" title="AD账户列表" :visible.sync="dialogTableVisible" :close-on-click-modal="false"
-				   :close-on-press-escape="false">
-			<accounts_fb ref="accounts_fb" type="nofb"></accounts_fb>
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogClose">{{$t('el.messagebox.cancel')}}</el-button>
-				<el-button type="primary" @click="saveAccounts">{{$t('el.messagebox.confirm')}}</el-button>
-			  </span>
-		</el-dialog>
+	<div class="mytable">
+		<headerTop></headerTop>
+		<el-col :span="4" style="height:100%;">
+			<div class="grid-left bg-purple-darkc overflow-y"
+				 id="app_left_menu">
+				<v-leftMenu></v-leftMenu>
+			</div>
+		</el-col>
+		<el-col :span="20" style="height:100%;">
+			<div>
+				<el-tabs v-model="activeName">
+					<el-tab-pane :label="$t('Staff Management')" name="getRulesLog">
+						<el-form :inline="true" :model="form" class="demo-form-inline">
+							<el-form-item label="Email">
+								<el-input v-model="form.email" :placeholder="$t('reg fb email')"></el-input>
+							</el-form-item>
+							<el-form-item :label="$t('groups')">
+								<el-select v-model="form.group_id" :placeholder="$t('el.select.placeholder')">
+									<el-option label="Admin" value="0"></el-option>
+									<el-option label="Advertisers" value="1"></el-option>
+								</el-select>
+							</el-form-item>
+							<el-form-item>
+								<el-button type="primary" @click="addUser">{{$t('add staff')}}</el-button>
+							</el-form-item>
+						</el-form>
+						<el-table :data="rulesLog" border style="width: 100%" max-height="750">
+							<el-table-column prop="email" label="Email" width="250"></el-table-column>
+							<el-table-column :formatter="formatUserdata" :label="$t('staff data')" ></el-table-column>
+							<el-table-column :label="$t('groups')"  width="120">
+								<template scope="scope">
+								<el-select v-model="scope.row.group_id" :placeholder="$t('el.select.placeholder')" @change="changeUser(scope.row.group_id,scope.row)">
+									<el-option label="Admin" value="0"></el-option>
+									<el-option label="Advertisers" value="1"></el-option>
+								</el-select>
+								</template>
+							</el-table-column>
+							<el-table-column :label="$t('operation')" width="100"  >
+								<template scope="scope">
+									<el-button type="text" size="small" @click="deleteUser(scope.$index, scope.row)">
+										{{$t('el.upload.delete')}}
+									</el-button>
+									<!--
+									<el-button type="text" size="small" @click="openDialog(scope.$index, scope.row)">
+										权限
+									</el-button>
+									-->
+								</template>
+							</el-table-column>
+						</el-table>
+					</el-tab-pane>
+				</el-tabs>
+				<el-dialog ref="accountDialog" title="AD账户列表" :visible.sync="dialogTableVisible" :close-on-click-modal="false"
+						   :close-on-press-escape="false">
+					<accounts_fb ref="accounts_fb" type="nofb"></accounts_fb>
+					<span slot="footer" class="dialog-footer">
+						<el-button @click="dialogClose">{{$t('el.messagebox.cancel')}}</el-button>
+						<el-button type="primary" @click="saveAccounts">{{$t('el.messagebox.confirm')}}</el-button>
+					  </span>
+				</el-dialog>
+			</div>
+		</el-col>
 	</div>
 </template>
 <script>
@@ -72,6 +74,8 @@
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
     import accounts_fb from './accounts_fb.vue';
+    import headerTop from '../../components/headerTop.vue'
+    
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
     import enLocale from 'element-ui/lib/locale/lang/en'
@@ -113,6 +117,7 @@
 var App= {
         components:{
             accounts_fb:accounts_fb,
+            headerTop:headerTop,
         },
         data:function(){
             return {

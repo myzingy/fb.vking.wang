@@ -56,7 +56,7 @@
 				<el-col :span="20" style="height:100%;">
 					<div :style="{ height:height_cc +'px' }" class="grid-content bg-purple-dark overflow-y"
 						 id="app_right_content">
-						<rightContent :content="contentHash"></rightContent>
+						<rightContent></rightContent>
 					</div>
 				</el-col>
 			</el-row>
@@ -79,7 +79,7 @@
     import uri from '../../uri.js';
     import statistical from './statistical.vue';
 
-    import rightContent from './rightContent.vue' //加载右侧页面
+    import rightContent from './def.vue' //加载右侧页面
     import VueI18n from 'vue-i18n'
     //import enLocale from 'element-ui/lib/locale/lang/en'
     //import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
@@ -126,7 +126,6 @@
                 acs:[],
                 ac_idx:!vk.isProduction(),
                 langx:'en',
-                contentHash:"",
 			}
 		},
         computed: mapState({
@@ -142,7 +141,6 @@
             this.height=document.body.scrollHeight-(this.h_height);
             this.height_cc=this.height;
             this.getAcsList();
-            this.setContentHash(location.hash);
         },
         methods:{
             ...mapActions([SET]),
@@ -185,12 +183,6 @@
                 //vk.http(uri.getAcsList,{},this.then);
                 vk.http(uri.getFBAccounts,{},this.then);
 			},
-            setContentHash(hash){
-                hash=hash.replace('#/','');
-                //if(!hash) return;
-			    console.log('setContentHash',hash);
-			    this.contentHash=hash.replace('#/','');
-            }
         },
     }
     export default {i18n,...App}

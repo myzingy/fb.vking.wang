@@ -1,45 +1,47 @@
 <style lang="stylus" rel="stylesheet/scss">
-	.el-table__expanded-cell
-		padding-top 0
-		padding-bottom 0
-	.el-table .cell, .el-table th>div
-		padding-left 3px
-		padding-right 3px
-	 .el-table th>.cell
-		 overflow hidden
-		 height 30px
-	
+    
 </style>
 <template>
-	<div>
-        <el-card class="box-card">
-            <div slot="header" class="clearfix">
-                <span style="line-height: 36px;">{{$t('Charging method')}}</span>
-                <el-button style="float: right;" type="primary" @click="gotoRecharge">{{$t('balance recharge',{balance:balance})}}</el-button>
+    <div class="mytable">
+        <headerTop></headerTop>
+        <el-col :span="4" style="height:100%;">
+            <div class="grid-left bg-purple-darkc overflow-y"
+                 id="app_left_menu">
+                <v-leftMenu></v-leftMenu>
             </div>
-            <div class="text item">
-                {{$t('Charging method info')}}
-            </div>
-        </el-card>
-		<el-tabs v-model="activeName">
-			<el-tab-pane :label="$t('Financial flow')" name="getRulesLog">
-				<el-table :data="rulesLog" border style="width: 100%" max-height="750">
-					<el-table-column :formatter="formatDate" label="Date" width="250"></el-table-column>
-                    <el-table-column :formatter="formatType" label="Type" width="80"></el-table-column>
-					<el-table-column :formatter="formatValue" label="Amount of money" ></el-table-column>
+        </el-col>
+        <el-col :span="20" style="height:100%;">
+            <div>
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span style="line-height: 36px;">{{$t('Charging method')}}</span>
+                        <el-button style="float: right;" type="primary" @click="gotoRecharge">{{$t('balance recharge',{balance:balance})}}</el-button>
+                    </div>
+                    <div class="text item">
+                        {{$t('Charging method info')}}
+                    </div>
+                </el-card>
+                <el-tabs v-model="activeName">
+                    <el-tab-pane :label="$t('Financial flow')" name="getRulesLog">
+                        <el-table :data="rulesLog" border style="width: 100%" max-height="750">
+                            <el-table-column :formatter="formatDate" label="Date" width="250"></el-table-column>
+                            <el-table-column :formatter="formatType" label="Type" width="80"></el-table-column>
+                            <el-table-column :formatter="formatValue" label="Amount of money" ></el-table-column>
 
-				</el-table>
-			</el-tab-pane>
-		</el-tabs>
-        <el-dialog title="Recharge" :visible.sync="dialogTableVisible" :close-on-click-modal="false"
-                   :close-on-press-escape="false">
-            <h1>{{$t('recharge info')}}</h1>
-            <span slot="footer" class="dialog-footer">
-				<el-button type="primary" @click="dialogClose">{{$t('el.messagebox.confirm')}}</el-button>
-			  </span>
-        </el-dialog>
-        <a id="gotoRechargeLink" :href="href" style="display: none" target="_blank"></a>
-	</div>
+                        </el-table>
+                    </el-tab-pane>
+                </el-tabs>
+                <el-dialog title="Recharge" :visible.sync="dialogTableVisible" :close-on-click-modal="false"
+                           :close-on-press-escape="false">
+                    <h1>{{$t('recharge info')}}</h1>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button type="primary" @click="dialogClose">{{$t('el.messagebox.confirm')}}</el-button>
+                      </span>
+                </el-dialog>
+                <a id="gotoRechargeLink" :href="href" style="display: none" target="_blank"></a>
+            </div>
+        </el-col>
+    </div>
 </template>
 <script>
     import Vue from 'vue'
@@ -48,6 +50,8 @@
     //import 'element-ui/lib/theme-default/index.css'
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
+    import headerTop from '../../components/headerTop.vue'
+    
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
     import enLocale from 'element-ui/lib/locale/lang/en'
@@ -84,6 +88,9 @@
 
     ElementLocale.i18n(key => i18n.t(key))
 var App= {
+        components:{
+            headerTop:headerTop,
+        },
         data:function(){
             return {
                 activeName: 'getRulesLog',

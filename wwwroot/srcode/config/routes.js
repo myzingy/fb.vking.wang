@@ -23,27 +23,27 @@ export default [
             },
             {
                 path: 'adsList*', //广告列表
-                component: resolve => require(['../pages/home/index.vue?adsList'], resolve)
+                component: resolve => require(['../pages/ads/list.vue'], resolve)
             },
             {
                 path: 'rulesList*', //规则列表
-                component: resolve => require(['../pages/home/index.vue?rulesList'], resolve)
+                component: resolve => require(['../pages/rules/list.vue'], resolve)
             },
             {
                 path: 'rulesLog*', //规则列表
-                component: resolve => require(['../pages/home/index.vue?rulesLog'], resolve)
+                component: resolve => require(['../pages/rules/log.vue'], resolve)
             },
             {
                 path: 'accounts*', //规则列表
-                component: resolve => require(['../pages/home/index.vue?accounts'], resolve)
+                component: resolve => require(['../pages/system/accounts.vue'], resolve)
             },
             {
                 path: 'users*', //规则列表
-                component: resolve => require(['../pages/home/index.vue?users'], resolve)
+                component: resolve => require(['../pages/system/users.vue'], resolve)
             },
             {
                 path: 'financial_flow*', //规则列表
-                component: resolve => require(['../pages/home/index.vue?financial_flow'], resolve)
+                component: resolve => require(['../pages/system/financial_flow.vue'], resolve)
             },
             {
                 path: '*', //其他页面，强制跳转到登录页面

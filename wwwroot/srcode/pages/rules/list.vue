@@ -1,17 +1,17 @@
 <style lang="stylus" rel="stylesheet/scss">
-	.el-table__expanded-cell
-		padding-top 0
-		padding-bottom 0
-	.el-table .cell, .el-table th>div
-		padding-left 3px
-		padding-right 3px
-	 .el-table th>.cell
-		 overflow hidden
-		 height 30px
-	 
+
 </style>
 <template>
-	<div>
+	<div class="mytable">
+		<headerTop></headerTop>
+		<el-col :span="4" style="height:100%;">
+			<div class="grid-left bg-purple-darkc overflow-y"
+				 id="app_left_menu">
+				<v-leftMenu></v-leftMenu>
+			</div>
+		</el-col>
+		<el-col :span="20" style="height:100%;">
+			<div>
 		<el-tabs v-model="activeName" @tab-click="handleTabClick">
 			<el-tab-pane :label="$t('Rule list')" name="getRulesData">
 				<el-table :data="rulesData" border style="width: 100%" max-height="100%">
@@ -71,6 +71,8 @@
 			</el-tab-pane>
 		</el-tabs>
 	</div>
+		</el-col>
+	</div>
 </template>
 <script>
     import Vue from 'vue'
@@ -80,6 +82,8 @@
 	import vk from '../../vk.js';
     import uri from '../../uri.js';
     import rule_edit from './rule_edit.vue';
+    import headerTop from '../../components/headerTop.vue'
+    
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
     import enLocale from 'element-ui/lib/locale/lang/en'
@@ -129,7 +133,8 @@
     ElementLocale.i18n(key => i18n.t(key))
     var App= {
         components:{
-            'v-rule':rule_edit
+            'v-rule':rule_edit,
+            headerTop:headerTop,
         },
         data:function(){
             return {

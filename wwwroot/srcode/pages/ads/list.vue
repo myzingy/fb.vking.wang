@@ -1,77 +1,69 @@
 <style lang="stylus" rel="stylesheet/scss">
-	.el-table__expanded-cell
-		padding-top 0
-		padding-bottom 0
-	.el-table .cell, .el-table th>div
-		padding-left 3px
-		padding-right 3px
-	 .el-table th>.cell
-		 overflow hidden
-		 height 30px
-   .el-tabs--card>.el-tabs__header .el-tabs__item .el-icon-close
-	   position relative
-	   font-size 16px
-	   width auto
-	   height auto
-	   vertical-align middle
-	   line-height 100%
-	   overflow hidden
-	   top 0
-	   right 0
-	   -ms-transform-origin 50% 50%
-	   transform-origin 50% 50%
+
 </style>
 <template>
-	<div style="padding: 10px;">
-		<el-form :inline="true" :model="formSearch" class="demo-form-inline">
-			<el-form-item :label="$t('search type')">
-				<el-select v-model="formSearch.keyword_type" :placeholder="$t('el.select.placeholder')">
-					<el-option :label="$t('campaign id or name')" value="campaign"></el-option>
-					<el-option :label="$t('adset id or name')" value="adset"></el-option>
-					<el-option :label="$t('ad id or name')" value="ad"></el-option>
-				</el-select>
-			</el-form-item>
-			<el-form-item>
-				<el-input v-model="formSearch.keyword" :placeholder="$t('keyword')"></el-input>
-			</el-form-item>
-			<el-form-item>
-				<el-button type="primary" @click="onFormSearch">{{$t('el.messagebox.confirm')}}</el-button>
-				<a href="javascript://" @click="onClearFormSearch">{{$t('el.colorpicker.clear')}}</a>
-			</el-form-item>
-		</el-form>
-		<el-tabs v-model="activeName" @tab-click="handleTabClick" type="card">
-			<el-tab-pane name="getCampaignsData">
-				<span slot="label">{{$t('campaigns')}}
-					<el-tag v-show="getTabName('checked_campaigns')" :closable="true"
-							@close="clearTabName('checked_campaigns')">{{getTabName
-						('checked_campaigns')}}</el-tag>
-				</span>
-				<v-ad_table v-bind:adsData="campaignsData" dataType="campaign" @searchThatID="searchThatID"
-							@openRulesDialog="openRulesDialog"></v-ad_table>
-			</el-tab-pane>
-			<el-tab-pane name="getAdsetsData">
-				<span slot="label">{{$t('adsets')}}
-					<el-tag v-show="getTabName('checked_adsets')" :closable="true" @close="clearTabName('checked_adsets')">{{getTabName('checked_adsets')
-						}}</el-tag>
-				</span>
-				<v-ad_table v-bind:adsData="adsetsData" dataType="adset" @openRulesDialog="openRulesDialog" @searchThatID="searchThatID"
-				></v-ad_table>
-			</el-tab-pane>
-			<el-tab-pane :label="$t('ads')" name="getAdsData">
-				<v-ad_table v-bind:adsData="adsData" dataType="ad" @openRulesDialog="openRulesDialog"></v-ad_table>
-			</el-tab-pane>
-		</el-tabs>
-		<div id="dialogRules">
-		<el-dialog ref="refDialog" :title="$t('rules')" :visible.sync="dialogTableVisible" :close-on-click-modal="false"
-				   :close-on-press-escape="false" @close="dialogClose" @open="dialogOpen">
-			<v-rules_list ref="refRules"></v-rules_list>
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogClose">{{$t('el.messagebox.cancel')}}</el-button>
-				<el-button type="primary" @click="saveRulesForAd">{{$t('el.messagebox.confirm')}}</el-button>
-			  </span>
-		</el-dialog>
-		</div>
-	</div>
+    <div class="mytable">
+        <headerTop></headerTop>
+        <el-col :span="4" style="height:100%;">
+            <div class="grid-left bg-purple-darkc overflow-y"
+                 id="app_left_menu">
+                <v-leftMenu></v-leftMenu>
+            </div>
+        </el-col>
+        <el-col :span="20" style="height:100%;">
+            <div style="padding: 10px;">
+
+                <el-form :inline="true" :model="formSearch" class="demo-form-inline">
+                    <el-form-item :label="$t('search type')">
+                        <el-select v-model="formSearch.keyword_type" :placeholder="$t('el.select.placeholder')">
+                            <el-option :label="$t('campaign id or name')" value="campaign"></el-option>
+                            <el-option :label="$t('adset id or name')" value="adset"></el-option>
+                            <el-option :label="$t('ad id or name')" value="ad"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input v-model="formSearch.keyword" :placeholder="$t('keyword')"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onFormSearch">{{$t('el.messagebox.confirm')}}</el-button>
+                        <a href="javascript://" @click="onClearFormSearch">{{$t('el.colorpicker.clear')}}</a>
+                    </el-form-item>
+                </el-form>
+                <el-tabs v-model="activeName" @tab-click="handleTabClick" type="card">
+                    <el-tab-pane name="getCampaignsData">
+                        <span slot="label">{{$t('campaigns')}}
+                            <el-tag v-show="getTabName('checked_campaigns')" :closable="true"
+                                    @close="clearTabName('checked_campaigns')">{{getTabName
+                                ('checked_campaigns')}}</el-tag>
+                        </span>
+                        <v-ad_table v-bind:adsData="campaignsData" dataType="campaign" @searchThatID="searchThatID"
+                                    @openRulesDialog="openRulesDialog"></v-ad_table>
+                    </el-tab-pane>
+                    <el-tab-pane name="getAdsetsData">
+                        <span slot="label">{{$t('adsets')}}
+                            <el-tag v-show="getTabName('checked_adsets')" :closable="true" @close="clearTabName('checked_adsets')">{{getTabName('checked_adsets')
+                                }}</el-tag>
+                        </span>
+                        <v-ad_table v-bind:adsData="adsetsData" dataType="adset" @openRulesDialog="openRulesDialog" @searchThatID="searchThatID"
+                        ></v-ad_table>
+                    </el-tab-pane>
+                    <el-tab-pane :label="$t('ads')" name="getAdsData">
+                        <v-ad_table v-bind:adsData="adsData" dataType="ad" @openRulesDialog="openRulesDialog"></v-ad_table>
+                    </el-tab-pane>
+                </el-tabs>
+                <div id="dialogRules">
+                <el-dialog ref="refDialog" :title="$t('rules')" :visible.sync="dialogTableVisible" :close-on-click-modal="false"
+                           :close-on-press-escape="false" @close="dialogClose" @open="dialogOpen">
+                    <v-rules_list ref="refRules"></v-rules_list>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="dialogClose">{{$t('el.messagebox.cancel')}}</el-button>
+                        <el-button type="primary" @click="saveRulesForAd">{{$t('el.messagebox.confirm')}}</el-button>
+                      </span>
+                </el-dialog>
+                </div>
+            </div>
+        </el-col>
+    </div>
 </template>
 <script>
     import Vue from 'vue'
@@ -82,7 +74,7 @@
     import uri from '../../uri.js';
     import rules_list from '../rules/rules_list.vue';
     import ad_table from './ad_table.vue';
-
+	import headerTop from '../../components/headerTop.vue'
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
     import enLocale from 'element-ui/lib/locale/lang/en'
@@ -130,6 +122,7 @@
         components:{
             'v-rules_list':rules_list,
             'v-ad_table':ad_table,
+            headerTop:headerTop,
         },
         data:function(){
             return {
