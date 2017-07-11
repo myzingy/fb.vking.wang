@@ -1,6 +1,6 @@
 import Vue  from 'vue'
 import VueResource  from 'vue-resource'
-import { Message,MessageBox,Loading } from 'element-ui';
+import { Message,MessageBox,Loading,Alert } from 'element-ui';
 import store from './store/'
 //import URI from './uri.js'
 
@@ -47,7 +47,16 @@ let vk={
         try{
             var ac_id = store.state.data.ac_id;
             data.ac_id=ac_id;
-        }catch(e){}
+        }catch(e){
+
+        }
+        if(typeof data.ac_id=='undefined'){
+            var cecode=[10000,10001,10002,11002];
+            if(cecode.indexOf(uri.code)>-1){
+                this.alert('Please select an AdAccount to start');
+                return;
+            }
+        }
         if(!data.token){
             try{
                 var token = store.state.user.token;
@@ -112,6 +121,14 @@ let vk={
             d.push(r[key])
         })
         return d;
+    },
+    alert:function(title,confirm){
+        MessageBox.alert(title, 'Message', {
+            confirmButtonText: 'Ok',
+            callback: action => {
+                if(confirm) confirm();
+            }
+        });
     },
     confirm:function(title,confirm,cancel){
         MessageBox.confirm(title, 'Message', {

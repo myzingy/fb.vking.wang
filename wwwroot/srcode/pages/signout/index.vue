@@ -13,7 +13,7 @@
 			<router-link slot="left" to="/home">返回</router-link>
 		</v-header>
 		<div class="btn">
-			<button v-on:click="submit">确认退出</button>
+			<button v-on:click="submit">Logout...</button>
 		</div>
 	</div>
 </template>
@@ -21,6 +21,9 @@
     import { mapActions } from 'vuex'
     import { USER_SIGNOUT } from '../../store/user.js'
     export default {
+        mounted(){
+            this.submit();
+		},
         methods: {
             ...mapActions([USER_SIGNOUT]),
             submit() {
