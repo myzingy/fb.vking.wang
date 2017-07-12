@@ -66,7 +66,7 @@ const i18n = new VueI18n({
 export default {
     json:{
         "type": "data_comparison",
-        "message0": "%1 %2 %3 %4 %5",
+        "message0": "%1 %2 %3 %4",
         "args0": [
             {
                 "type": "field_dropdown",
@@ -178,10 +178,6 @@ export default {
                 "type": "field_input",
                 "name": "input_value",
                 "text": "value"
-            },
-            {
-                "type": "input_value",
-                "name": "NAME"
             }
         ],
         "output": null,
@@ -202,7 +198,7 @@ export default {
             var dropdown_field = block.getFieldValue('field');
             var dropdown_expression = block.getFieldValue('expression');
             var text_value = block.getFieldValue('input_value');
-            var value_input = Blockly.PHP.valueToCode(block, 'input', Blockly.PHP.ORDER_ATOMIC);
+            //var value_input = Blockly.PHP.valueToCode(block, 'input', Blockly.PHP.ORDER_ATOMIC);
             // TODO: Assemble PHP into code variable.
             //var code = '$'+dropdown_field+' '+dropdown_expression+' '+text_value;
             var code = '$this->expression("'+dropdown_date+'","'+dropdown_field+'","'+dropdown_expression+'","'+text_value.replace(/[ $]/g,'')+'")';
