@@ -108,4 +108,29 @@ class lib
         }
         M('rules_link')->addAll($data);
     }
+    function getRulesLogStat(){
+        $ac_id=I('request.ac_id');
+        $data=[];
+        $ac=FBC($ac_id);
+        $today_time=getDayTime("00:00:00",0,$ac['utc_seconds']);
+        $last7day_time=getDayTime("00:00:00",-14,$ac['utc_seconds']);
+        $data['today']=M('rules_exec_log')->field("sum(spend_cut) as spend_cut,sum(spend_put) as spend_put,count(*) as total")
+            ->where("time>$today_time and account_id='$ac_id'")
+            ->find();
+        $data['total']=M('rules_exec_log')->field("sum(spend_cut) as spend_cut,sum(spend_put) as spend_put,count(*) as total")
+            ->where("account_id='$ac_id'")
+            ->find();
+        $data['last7day']=M('rules_exec_log')->field("sum(spend_cut) as spend_cut,sum(spend_put) as spend_put,count(*) as total,FROM_UNIXTIME(`time`,'%Y-%m-%d') as date,`time`")
+            ->where("time>$last7day_time and account_id='$ac_id'")
+            ->group("date")
+            ->order("date desc")
+            ->select();
+        if($data['today']['total']==0){
+            $data['today']=["spend_cut"=>0,"spend_put"=>0,"total"=>0];
+        }
+        if($data['total']['total']==0){
+            $data['total']=["spend_cut"=>0,"spend_put"=>0,"total"=>0];
+        }
+        return array('data'=>$data);
+    }
 }

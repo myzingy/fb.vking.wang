@@ -12,22 +12,25 @@
         </el-col>
         <el-col :span="20" style="height:100%;">
             <div style="padding: 10px;">
-                <rightContent></rightContent>
+                <def></def>
             </div>
         </el-col>
     </div>
 </template>
 <script>
+    import headerTop from '../../components/headerTop.vue';
+    import def from './def.vue';
     import Vue from 'vue'
     import { mapState } from 'vuex'
     import vk from '../../vk.js';
 
-    import rightContent from './def.vue' //加载右侧页面
-    import headerTop from '../../components/headerTop.vue'
+
+
 
 	var App={
         components:{
-            headerTop,rightContent
+            headerTop:headerTop,
+            def:def
 		},
         data:function(){
             return {

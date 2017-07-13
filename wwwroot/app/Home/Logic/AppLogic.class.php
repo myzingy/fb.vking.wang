@@ -80,6 +80,10 @@ class AppLogic {
         $lib = new \Modules\rules\lib();
         return $lib -> getRulesLog();
     }
+    function user__getRulesLogStat(){
+        $lib = new \Modules\rules\lib();
+        return $lib -> getRulesLogStat();
+    }
     function user__getRulesForAd(){
         $lib = new \Modules\rules\lib();
         return $lib -> getRulesForAd();

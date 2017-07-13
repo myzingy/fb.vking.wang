@@ -9,12 +9,12 @@
 </template>
 <script>
     import Vue from 'vue'
-    import { mapState,mapActions } from 'vuex'
-    import ElementUI from 'element-ui'
+    import { mapState } from 'vuex'
+    //import ElementUI from 'element-ui'
     import 'element-ui/lib/theme-default/index.css'
     import vk from '../../vk.js';
     import VueI18n from 'vue-i18n'
-    //import ElementLocale from 'element-ui/lib/locale'
+    import ElementLocale from 'element-ui/lib/locale'
 
     Vue.use(VueI18n)
 
@@ -45,10 +45,10 @@
         messages, // set locale messages
     })
 
-    //ElementLocale.i18n(key => i18n.t(key))
-    Vue.use(ElementUI,{
-        i18n: key => i18n.vm._t(key)
-    })
+    ElementLocale.i18n(key => i18n.t(key))
+//    Vue.use(ElementUI,{
+//        i18n: key => i18n.vm._t(key)
+//    })
 
     var App={
         computed: mapState({

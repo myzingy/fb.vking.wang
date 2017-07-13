@@ -28,7 +28,7 @@
 				</el-table>
 			</el-tab-pane>
 			<el-tab-pane :label="$t('Optimized statistics')" name="RulesExecTotal">
-				{{$t('Optimized statistics')}}
+				<log_stat></log_stat>
 			</el-tab-pane>
 		</el-tabs>
 	</div>
@@ -44,6 +44,7 @@
     import uri from '../../uri.js';
     import ad_table from '../ads/ad_table.vue';
     import headerTop from '../../components/headerTop.vue'
+    import log_stat from './log_stat.vue'
     
     import VueI18n from 'vue-i18n'
     import ElementLocale from 'element-ui/lib/locale'
@@ -81,6 +82,7 @@
         components:{
             'v-ad_table':ad_table,
             headerTop:headerTop,
+            log_stat:log_stat,
         },
         data:function(){
             return {

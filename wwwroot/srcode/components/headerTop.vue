@@ -71,7 +71,7 @@
     import { SET } from '../store/data.js'
     import vk from '../vk.js';
     import uri from '../uri.js';
-    import ElementUI from 'element-ui'
+    //import ElementUI from 'element-ui'
     import 'element-ui/lib/theme-default/index.css'
     
     import VueI18n from 'vue-i18n'
@@ -98,11 +98,10 @@
         locale: 'en', // set locale
         messages, // set locale messages
     })
-
-    //ElementLocale.i18n(key => i18n.t(key))
-    Vue.use(ElementUI,{
-        i18n: key => i18n.vm._t(key)
-    })
+    ElementLocale.i18n(key => i18n.t(key))
+//    Vue.use(ElementUI,{
+//        i18n: key => i18n.vm._t(key)
+//    })
 
     var App={
         data:function(){

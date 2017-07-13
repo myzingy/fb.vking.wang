@@ -13,6 +13,7 @@ export default {
     getRulesLog:{act:'user.getRulesLog',code:11002},
     getRulesForAd:{act:'user.getRulesForAd',code:11003},
     saveRulesForAd:{act:'user.saveRulesForAd',code:11004},
+    getRulesLogStat:{act:'user.getRulesLogStat',code:11005},
 
     //common
     getAcsList:{act:'user.getAcsList',code:12000},
