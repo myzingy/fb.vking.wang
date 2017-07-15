@@ -19,10 +19,10 @@ class lib{
         $data['name']=I('request.name');
         $data['email']=I('request.email');
         $data['token']=I('request.token');
-        $data['time']=NOW_TIME;
         if($this->model->id){
             $this->model->save($data);
         }else{
+            $data['time']=NOW_TIME;
             $this->getRoot($data['email'],$data['group_id']);
             $this->model->add($data);
         }

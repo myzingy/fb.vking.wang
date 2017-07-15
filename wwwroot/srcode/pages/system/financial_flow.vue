@@ -1,5 +1,13 @@
 <style lang="stylus" rel="stylesheet/scss">
-    
+    .el-table__body .item {
+        margin-top: 10px;
+        margin-right: 50px;
+    }
+    .el-table__body .el-badge__content{
+        top: 0px;
+        left: 0px;
+        right:0;
+    }
 </style>
 <template>
     <div class="mytable">
@@ -20,14 +28,31 @@
                     <div class="text item">
                         {{$t('Charging method info')}}
                     </div>
+                    <div class="text item">
+                        Today is expected to cost: <span style="color:#f33;">${{spend}}</span>
+                        <span style="float: right;color:#33f;" v-show="free">{{$t('Free period')}}</span>
+                    </div>
                 </el-card>
                 <el-tabs v-model="activeName">
                     <el-tab-pane :label="$t('Financial flow')" name="getRulesLog">
                         <el-table :data="rulesLog" border style="width: 100%" max-height="750">
-                            <el-table-column :formatter="formatDate" label="Date" width="250"></el-table-column>
-                            <el-table-column :formatter="formatType" label="Type" width="80"></el-table-column>
+                            <el-table-column :formatter="formatDate" label="Date" width="120"></el-table-column>
+                            <el-table-column label="Type" width="120">
+                                <template scope="scope">
+                                    <div v-if="scope.row.type == 2" >
+                                        <el-badge value="Free" class="item">
+                                            {{$t('Spend')}}
+                                        </el-badge>
+                                    </div>
+                                    <div v-else-if="scope.row.type == 0">
+                                        {{$t('Spend')}}
+                                    </div>
+                                    <div v-else="">
+                                        {{$t('Recharge')}}
+                                    </div>
+                                </template>
+                            </el-table-column>
                             <el-table-column :formatter="formatValue" label="Amount of money" ></el-table-column>
-
                         </el-table>
                     </el-tab-pane>
                 </el-tabs>
@@ -66,7 +91,9 @@
             'balance recharge':'Balance ${balance},Recharge',
             'Recharge':'Recharge',
             'Spend':'Spend',
+            'Free Spend':'Free Spend',
             'recharge info':'After the payment is successful, 5 minutes arrival, please contact us for account questions',
+            'Free period':'Free period, please feel free to use',
             ...enLocale
         },
         zh: {
@@ -76,7 +103,9 @@
             'balance recharge':'余额 ${balance}，充值',
             'Recharge':'充值',
             'Spend':'花费',
+            'Free Spend':'花费',
             'recharge info':'支付成功后5分钟到账，账务问题请联系我们',
+            'Free period':"免费期，请放心使用",
             ...zhLocale
         }
     }
@@ -104,6 +133,8 @@ var App= {
                 accountsEmail:"",
                 balance:0,
                 href:"http://go.vking.wang",
+                spend:0,
+                free:false,
 			}
 		},
         computed: mapState({ user: state => state.user,lang:state => state.data?state.data.lang:"en" }),
@@ -122,6 +153,8 @@ var App= {
 					case uri.getFinancialFlow.code:
 					    this.rulesLog=json.data.list;
 					    this.balance=(json.data.balance/100).toFixed(2);
+                        this.spend=json.data.spend;
+                        this.free=json.data.free;
                         break;
 				}
 
@@ -131,7 +164,7 @@ var App= {
                 return vk.date("YYYY-MM-DD",row.addtime);
             },
             formatType:function(row, column){
-                var str=row.type==1?'Recharge':'Spend';
+                var str=row.type==1?'Recharge':(row.type==2?'Free Spend':'Spend');
                 return i18n.t(str);
             },
             formatValue:function(row, column){

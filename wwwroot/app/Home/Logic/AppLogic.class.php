@@ -307,6 +307,14 @@ class AppLogic {
         $lib = new \Modules\assets\lib();
         return $lib -> setAssetsFileHash();
     }
+    function asyn__todaySettlementInit(){
+        $lib = new \Modules\accounts\lib();
+        return $lib -> todaySettlementInit();
+    }
+    function asyn__todaySettlement(){
+        $lib = new \Modules\accounts\lib();
+        return $lib -> todaySettlement();
+    }
 	############################################################
 	# 一些异步接口结束
 	############################################################

@@ -8,6 +8,7 @@ namespace Modules\financialRecord;
 class lib{
     const TYPE_SPEND=0;
     const TYPE_RECHARGE=1;
+    const TYPE_SPEND_FREE=2;
     function __construct() {
 
     }
@@ -37,16 +38,39 @@ class lib{
     }
     function getFinancialFlow($user){
         $root_id=$user->root?$user->root:$user->id;
-        $balance=M('financial_record')->where("root_id='{$root_id}'")->sum('value')+0;
+        $balance=M('financial_record')->where("root_id='{$root_id}' and type!=".self::TYPE_SPEND_FREE)->sum('value')+0;
         $list=M('financial_record')
             ->where("root_id='{$root_id}'")
             ->order("addtime desc")
             ->limit(50)
             ->select();
+        $stime=M('user')->where("id='{$root_id}'")->getField('time');
+        $day=ceil((NOW_TIME-$stime)/86400);
+        $accs=M('user_accounts')->field('account_id,utc_seconds,`status`')->where("root_id='{$root_id}'")->select();
+        if($accs){
+            $acc_ids=[];
+            $utc_seconds=0;
+            foreach ($accs as $acc){
+                $acc_ids[]="'{$acc['account_id']}'";
+                if($acc['status']==0){
+                    $utc_seconds=$acc['utc_seconds'];
+                }
+            }
+            $date_start=date("Y-m-d",NOW_TIME+$utc_seconds);
+            $insights_count=M('ads_insights')->where("account_id in (".implode(",",$acc_ids).") and type=0 and date_start='{$date_start}'")->count();
+            $insights_spend=$insights_count*0.1;
+
+            $time=getDayTime("00:00:00",0,$utc_seconds);
+            $optimized_count=M('rules_exec_log')->where("account_id in (".implode(",",$acc_ids).") and time>{$time}")->count();
+            $optimized_spend=$optimized_count*0.5;
+
+        }
         return ['data'=>array(
             'balance'=>$balance,
             'list'=>$list,
-            'root'=>$user->root
+            'root'=>$user->root,
+            'free'=>($day<16),
+            'spend'=>$insights_spend+$optimized_spend,
         )];
     }
 }
