@@ -296,7 +296,7 @@ END;
         $root_id=I('request.root_id');
         if(!$root_id) return;
         $stime=M('user')->where("id='{$root_id}'")->getField('time');
-        $day=ceil((NOW_TIME-$stime)/86400);
+        $day=(int)((NOW_TIME-$stime)/86400);
         $free=$day<16;
         $accs=M('user_accounts')->field('account_id,utc_seconds,`status`')->where("root_id='{$root_id}'")->select();
         if($accs){

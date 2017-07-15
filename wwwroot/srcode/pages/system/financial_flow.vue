@@ -30,7 +30,7 @@
                     </div>
                     <div class="text item">
                         Today is expected to cost: <span style="color:#f33;">${{spend}}</span>
-                        <span style="float: right;color:#33f;" v-show="free">{{$t('Free period')}}</span>
+                        <span style="float: right;color:#33f;" v-show="free">{{freeInfo}}</span>
                     </div>
                 </el-card>
                 <el-tabs v-model="activeName">
@@ -93,7 +93,8 @@
             'Spend':'Spend',
             'Free Spend':'Free Spend',
             'recharge info':'After the payment is successful, 5 minutes arrival, please contact us for account questions',
-            'Free period':'Free period, please feel free to use',
+            'Free period':'Free for {freeday} days, please feel free to use',
+            'Free Recharge':'Can only free {freeday} days, please recharge',
             ...enLocale
         },
         zh: {
@@ -105,7 +106,8 @@
             'Spend':'花费',
             'Free Spend':'花费',
             'recharge info':'支付成功后5分钟到账，账务问题请联系我们',
-            'Free period':"免费期，请放心使用",
+            'Free period':"免费{freeday}天，请放心使用",
+            'Free Recharge':'只能免费{freeday}天了，请充值',
             ...zhLocale
         }
     }
@@ -135,6 +137,8 @@ var App= {
                 href:"http://go.vking.wang",
                 spend:0,
                 free:false,
+                freeday:0,
+                freeInfo:"",
 			}
 		},
         computed: mapState({ user: state => state.user,lang:state => state.data?state.data.lang:"en" }),
@@ -155,6 +159,12 @@ var App= {
 					    this.balance=(json.data.balance/100).toFixed(2);
                         this.spend=json.data.spend;
                         this.free=json.data.free;
+                        //this.freeday=json.data.freeday;
+                        if(json.data.freeday<4){
+                            this.freeInfo=i18n.t('Free Recharge',{'freeday':json.data.freeday});
+                        }else{
+                            this.freeInfo=i18n.t('Free period',{'freeday':json.data.freeday});
+                        }
                         break;
 				}
 
