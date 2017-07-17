@@ -158,7 +158,8 @@ END;
                 'account_name'=>$r['name'],
                 'user_id'=>$user->id,
                 'root_id'=>$user->root?$user->root:$user->id,
-                'utc_seconds'=>$utc
+                'utc_seconds'=>$utc,
+                'status'=>0
             );
             //$account_ids[]=$r['account_id'];
         }
@@ -175,7 +176,7 @@ END;
         if(!$account_id) return;
         M('user_accounts')->where(array(
             'account_id'=>$account_id
-        ))->delete();
+        ))->save(array('status'=>1));
     }
 
     /**
@@ -187,7 +188,7 @@ END;
      */
     function _getAccounts($field,$isCount=false){
         $mod=M('user_accounts');
-        $where=" 1=1 ";
+        $where=" status=0 ";
         if($field['id']){
             $where.=" and root_id='{$field['id']}' ";
         }
@@ -276,11 +277,55 @@ END;
             $time_e=$day." 20:00:00";
             $offset=I('request.offset',0);
             $mod->field("UA.account_id,UA.account_name");
-            $mod->where(" FROM_UNIXTIME($time+UA.utc_seconds) >'{$time_s}' AND  FROM_UNIXTIME($time+UA.utc_seconds)<'{$time_e}' ");
+            $mod->where(" `status`=0 AND FROM_UNIXTIME($time+UA.utc_seconds) >'{$time_s}' AND  FROM_UNIXTIME($time+UA.utc_seconds)<'{$time_e}' ");
             $mod->limit($offset,self::FBC_LIMIT_NUM);
             $data=$mod->select();
             echo $mod->getLastSql();
         }
         return $data;
+    }
+    //创建日结任务
+    function todaySettlementInit(){
+        $data=M('user_accounts')->group('root_id')->order('status')->select();
+        foreach ($data as $r){
+            asyn('apido/asyn.todaySettlement',array('root_id'=>$r['root_id']),null,getDayTime("23:30:00",0,$r['utc_seconds']),5);
+        }
+    }
+    //执行日结任务
+    function todaySettlement(){
+        $root_id=I('request.root_id');
+        if(!$root_id) return;
+        $stime=M('user')->where("id='{$root_id}'")->getField('time');
+        $day=(int)((NOW_TIME-$stime)/86400);
+        $free=$day<16;
+        $accs=M('user_accounts')->field('account_id,utc_seconds,`status`')->where("root_id='{$root_id}'")->select();
+        if($accs){
+            $acc_ids=[];
+            $utc_seconds=0;
+            foreach ($accs as $acc){
+                $acc_ids[]="'{$acc['account_id']}'";
+                if($acc['status']==0){
+                    $utc_seconds=$acc['utc_seconds'];
+                }
+            }
+            $date_start=date("Y-m-d",NOW_TIME+$utc_seconds);
+            $insights_count=M('ads_insights')->where("account_id in (".implode(",",$acc_ids).") and type=0 and date_start='{$date_start}'")->count();
+            $insights_spend=$insights_count*0.1;
+
+            $time=getDayTime("00:00:00",0,$utc_seconds);
+            $optimized_count=M('rules_exec_log')->where("account_id in (".implode(",",$acc_ids).") and time>{$time}")->count();
+            $optimized_spend=$optimized_count*0.5;
+        }
+        $spend=$insights_spend+$optimized_spend;
+        if($spend>0){
+            M('financial_record')->add(array(
+                'root_id'=>$root_id,
+                'type'=>$free?\Modules\financialRecord\lib::TYPE_SPEND_FREE:\Modules\financialRecord\lib::TYPE_SPEND,
+                'order_id'=>'',
+                'value'=>-$spend*100,
+                'discount_value'=>0,
+                'addtime'=>NOW_TIME
+            ));
+        }
     }
 }

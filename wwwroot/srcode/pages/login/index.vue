@@ -23,9 +23,16 @@
 </style>
 <template>
 	<div>
-		<v-header title="登录">
+		<v-header title="Adset Budget Rules">
 			<router-link slot="left" to="?"></router-link>
 		</v-header>
+		<el-card class="box-card" style="text-align: center;">
+			<el-steps :space="300" :active="1">
+				<el-step title="1. Bind AdAccount" description="You must have AdAccount"></el-step>
+				<el-step title="2. Create Rule" description="Visual programming"></el-step>
+				<el-step title="3. Bind Rule For Campaign" description="Timed automatic execution"></el-step>
+			</el-steps>
+		</el-card>
 		<div class="login" v-show="!btn">
 			<fb-signin-button
 					:params="fbSignInParams"
@@ -35,21 +42,10 @@
 			</fb-signin-button>
 		</div>
 
-		<form class="login" v-on:submit.prevent="submit_test" v-show="!isProduction">
-			<div class="line">	
-				<div v-show="btn && !form.id">id不能为空</div>
-				<input type="number" placeholder="输入你的id" v-model="form.id">
-			</div>
-			<div class="line">
-				<div v-show="btn && !form.name">用户名不能为空</div>
-				<input type="text" placeholder="输入你的用户名" v-model="form.name">
-			</div>
-			<button>登录</button>
-		</form>
-
 	</div>
 </template>
 <script>
+    import vk from '../../vk.js'
     window.fbAsyncInit = function() {
         FB.init({
             appId      : '161699864370779',
@@ -57,6 +53,9 @@
             xfbml      : true,  // parse social plugins on this page
             version    : 'v2.8', // use graph api version 2.8
         });
+    };
+    window.onerror=function(){
+        vk.toast('Fackbook login fail,Please try again or refresh the page!');
     };
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -70,7 +69,6 @@
     import { USER_SIGNIN } from '../../store/user.js'
     import FBSignInButton from 'vue-facebook-signin-button'
     Vue.use(FBSignInButton)
-	import vk from '../../vk.js'
 	import uri from '../../uri.js'
     export default {
         data() {
@@ -124,15 +122,6 @@
                     console.log('logout', response)
                 });
 			},
-			submit_test(){
-				this.USER_SIGNIN({
-					id: '111',
-					name: '111',
-					email:'111',
-					token:'111',
-				})
-				this.$router.replace({ path: '/home' })
-			}
 		}
     }
 </script>

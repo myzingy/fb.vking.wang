@@ -23,6 +23,7 @@ class lib{
 
     }
     function demon(){
+        //清理cron表
         $time_s=getDayTime("07:59:00",0);
         $time_e=getDayTime("08:00:00",0);
         if(NOW_TIME > $time_s && NOW_TIME < $time_e) {
@@ -35,7 +36,10 @@ class lib{
                 M()->query('TRUNCATE TABLE `x_cron`');
             }
             S('CRON_CLEAR_FLAG',$ymd);
+            //创建日结任务
+            asyn_implement('apido/asyn.todaySettlementInit');
         }
+        //执行cron
         $this->implement();
     }
     function getErrorACID(){

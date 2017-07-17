@@ -52,7 +52,6 @@ class lib{
                 ),null,null,3);
             }
         }
-
     }
 	function flushCampaigns(){
         $ac_id=I('request.ac_id');
