@@ -5,7 +5,7 @@ const messages = {
     en: {
 
         '预算调整': 'Budget adjustment',
-        '暂停投放': 'Pause advertising',
+        '暂停投放': 'Pause',
         '加上':'Add(+)',
         '减去':'Subtract(-)',
         '调至':'Adjust to',
@@ -50,8 +50,12 @@ export default {
                         "Budget"
                     ],
                     [
-                        i18n.t("暂停投放"),
-                        "Pause"
+                        i18n.t("暂停投放")+"(Ad Set)",
+                        "PauseAdset"
+                    ],
+                    [
+                        i18n.t("暂停投放")+"(Ad)",
+                        "PauseAd"
                     ]
                 ]
             },
