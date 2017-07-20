@@ -151,13 +151,14 @@ class lib{
             }
         }
         if($date_stop){
-            $this->model->setDateStop($date_stop);
+            $this->model->setDateStop($date_stop,date('Y-m-d',NOW_TIME)==$date_stop?0:99);
         }
         $data=$this->model
             ->field('campaigns.id,campaigns.name,campaigns.effective_status')
             ->relation(array('insights'))
             ->join('campaigns_insights AI ON AI.campaign_id=campaigns.id')
             ->where($where)
+            ->group('campaigns.id')
             ->order('campaigns.updated_time desc')
             ->select();
         $formatData=formatInsightsData($data,'campaign');
