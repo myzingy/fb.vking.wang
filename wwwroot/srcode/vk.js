@@ -158,6 +158,19 @@ let vk={
         tpl=tpl.replace('SS',ss>9?ss:'0'+ss);
         return tpl;
     },
+    numberFormat(num,floatNumber=2,pre='$'){
+        if(!isFinite(num)) return num;
+        var numberSplit=',';
+        var number=(num/1).toFixed(floatNumber).toString();
+        return number.replace(/([\d]{1,3})([\d]{3})?([\d]{3})?([\d]{3})?(\.[\d]{2})/,function(){
+            var str=pre;
+            for (var i=1;i<5;i++){
+                str+=typeof arguments[i]!='undefined'?(arguments[i]+numberSplit):'';
+            }
+            str=str.substr(0,str.length-1);
+            return str+arguments[5];
+        });
+    },
     loading(flag=true){
         var load=Loading.service({ fullscreen: true });
         if(!flag) setTimeout(function(){load.close();},0);
